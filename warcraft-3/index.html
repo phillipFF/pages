@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Warcraft III - A Full Packaged RTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,520;7..72,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #cfc6b8;
+      --paper: #f3efe6;
+      --ink: #1c1914;
+      --muted: #5c564c;
+      --faint: #8a8276;
+      --line: #e3dacb;
+      --line-strong: #cfc4b2;
+      --card: #fffcf7;
+      --oxide: #8e3b28;
+      --oxide-soft: #f6ebe4;
+      --pine: #1e403a;
+      --pine-soft: #e5eeea;
+      --gold: #6e5830;
+      --gold-soft: #f4ecd9;
+      --shadow: 0 18px 50px rgba(48, 38, 22, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.4 Outfit, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    button, input { font: inherit; color: inherit; }
+    button {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    :focus-visible {
+      outline: 2px solid var(--oxide);
+      outline-offset: 3px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 {
+      font-family: Literata, "Iowan Old Style", Palatino, Georgia, serif;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+    h1 { font-size: clamp(44px, 5.4vw, 68px); padding-right: 72px; }
+    h2 { font-size: clamp(28px, 3vw, 38px); padding-right: 72px; }
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--oxide);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .kicker.pine { color: var(--pine); }
+    .lede {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 40em;
+    }
+    .fine {
+      color: var(--faint);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .shotfig { margin: 0; min-width: 0; }
+    .shotfig img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .shotfig figcaption {
+      margin-top: 6px;
+      color: var(--faint);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .shotfig.deck { max-width: 640px; }
+    .shotfig.pairshot img {
+      width: auto;
+      max-width: 100%;
+      max-height: 210px;
+    }
+    .shotfig.chart {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .shotfig.chart img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .play {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 22px;
+      align-items: center;
+      min-height: 0;
+    }
+    .play .shotfig img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .play .copy {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+    }
+    .play.portrait { grid-template-columns: auto minmax(0, 1fr); }
+    .play.portrait .shotfig img {
+      width: auto;
+      max-width: 100%;
+      max-height: 500px;
+      height: auto;
+    }
+    .play .card { padding: 11px 12px 10px; gap: 4px; }
+    .play .card h3 { font-size: 17px; }
+    .play .card p { font-size: 14px; line-height: 1.35; }
+    .play .eq { gap: 6px; flex-wrap: nowrap; }
+    .play .eq .op { font-size: 20px; }
+    .play .eq .token {
+      width: auto;
+      flex: 1;
+      min-height: 0;
+      padding: 8px 6px;
+    }
+    .tight {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+    .tight li {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 6px;
+    }
+    .example-shots {
+      display: grid;
+      grid-template-columns: auto repeat(3, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .example-shots img {
+      width: 100%;
+      height: 132px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .example-shots .dice img {
+      width: auto;
+      height: 260px;
+      object-fit: contain;
+      object-position: top center;
+    }
+    .example-shots figcaption { text-align: center; }
+    .mech {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+    }
+    .mech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+      height: 75%;
+      min-height: 0;
+      align-self: center;
+    }
+    .mech-grid .card { height: 100%; }
+    .phone-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .phone-row .shotfig { width: auto; }
+    .phone-row .shotfig img {
+      width: auto;
+      height: min(430px, calc(100dvh - 360px));
+      max-height: none;
+      object-fit: contain;
+    }
+    .phone-row figcaption {
+      text-align: center;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .merge-shots {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+    }
+    .merge-shots .shotfig { width: auto; }
+    .merge-shots img {
+      width: auto;
+      height: 168px;
+      max-height: none;
+      object-fit: contain;
+    }
+    .upgrade-pair {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+    }
+    .upgrade-pair .shotfig { width: auto; }
+    .upgrade-pair img {
+      width: auto;
+      height: min(280px, calc(100dvh - 460px));
+      max-height: none;
+      object-fit: contain;
+    }
+    .upgrade-pair figcaption { text-align: center; max-width: 280px; }
+    .rankread {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .rankread img {
+      width: 100%;
+      height: auto;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .mock {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      min-height: 0;
+    }
+    .mock video {
+      height: min(460px, calc(100dvh - 280px));
+      width: auto;
+      max-width: 100%;
+      display: block;
+      background: #1a1814;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .mock .stack { max-width: 28em; }
+
+    .bar {
+      position: fixed;
+      z-index: 5;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(28, 25, 20, 0.12);
+    }
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--oxide);
+      transform: scaleX(0.07);
+      transform-origin: left center;
+    }
+
+    .viewport {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 28px 16px;
+      gap: 14px;
+    }
+
+    .slide {
+      width: min(1120px, 100%);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 36px 44px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+    }
+    html.js .slide { display: none; }
+    html.js .slide.active {
+      display: flex;
+      height: min(680px, calc(100dvh - 108px));
+      overflow: auto;
+    }
+    .slide.cover { justify-content: center; gap: 28px; }
+
+    .slideno {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .slideno b { color: var(--ink); font-weight: 600; }
+
+    .chrome {
+      width: min(1120px, 100%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chrome button {
+      width: 36px;
+      height: 36px;
+      border: 1px solid transparent;
+      background: rgba(255, 252, 247, 0.55);
+      color: var(--ink);
+    }
+    .chrome button:hover { background: var(--card); }
+    .chrome button:disabled { opacity: 0.35; cursor: default; }
+    .count {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+    }
+    .hint { color: var(--faint); font-size: 13px; }
+
+    .stack { display: flex; flex-direction: column; gap: 12px; max-width: 46em; }
+    .stack p { color: var(--muted); }
+    .stack strong { color: var(--ink); font-weight: 600; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 0;
+    }
+    .split.even { grid-template-columns: 1fr 1fr; align-items: stretch; }
+    .cols-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .cols-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .card h3 { font-size: 20px; }
+    .card p { color: var(--muted); font-size: 15px; }
+    .card .idx {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+    }
+    .card.focus {
+      background: var(--oxide-soft);
+      border-color: #e4cfc4;
+    }
+    .card.focus .idx { color: var(--oxide); }
+    .card.ours {
+      background: var(--pine-soft);
+      border-color: #c9ddd6;
+    }
+    .card.ours .idx, .card.ours h3 { color: var(--pine); }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .fact {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 16px 14px 14px;
+    }
+    .fact b {
+      display: block;
+      font-family: Literata, Georgia, serif;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .fact span { color: var(--muted); font-size: 14px; }
+
+    .eq {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .eq.center { justify-content: center; }
+    .op {
+      font-family: Literata, Georgia, serif;
+      font-size: 32px;
+      color: var(--faint);
+      line-height: 1;
+    }
+    .token {
+      width: 118px;
+      min-height: 132px;
+      background: var(--card);
+      border: 1.5px solid var(--ink);
+      padding: 12px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+    }
+    .token svg { width: 36px; height: 36px; }
+    .token .who {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .token .rk {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .token.result {
+      background: var(--oxide-soft);
+      border-color: var(--oxide);
+      color: var(--oxide);
+    }
+    .token.result .rk { color: var(--oxide); }
+    .token.building { border-radius: 0; }
+    .token.pine {
+      background: var(--pine-soft);
+      border-color: var(--pine);
+      color: var(--pine);
+    }
+    .token.pine .rk { color: var(--pine); }
+    .cover .token { width: 132px; min-height: 148px; }
+    .cover .token svg { width: 42px; height: 42px; }
+    .slide.rts { gap: 26px; }
+    .slide.rts .card { padding: 14px 16px 12px; gap: 8px; }
+    .slide.rts .token { width: 104px; min-height: 108px; padding: 8px; }
+    .slide.rts .token svg { width: 28px; height: 28px; }
+
+    .ranks {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .ranks li {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .ranks li.on {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .ranks li.next {
+      background: var(--oxide);
+      color: white;
+      border-color: var(--oxide);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+    .cell {
+      aspect-ratio: 1;
+      border: 1px solid var(--line-strong);
+      background: #f7f3eb;
+      display: grid;
+      place-items: center;
+    }
+    .cell.filled {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+    .cell.filled span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+    .cell.open {
+      border-style: dashed;
+      border-color: var(--oxide);
+      background: var(--oxide-soft);
+    }
+
+    .math {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sum {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sum .op { flex: 0 0 auto; }
+    .pile {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pile b {
+      font-family: Literata, Georgia, serif;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+    .pile span { color: var(--muted); font-size: 14px; }
+    .pile.out {
+      background: var(--oxide-soft);
+      border-color: #e4cfc4;
+    }
+    .pile.out b { color: var(--oxide); }
+    .callout {
+      background: var(--gold-soft);
+      border-left: 3px solid var(--gold);
+      padding: 12px 14px;
+      color: var(--ink);
+      font-size: 15px;
+    }
+    .callout strong { font-weight: 600; }
+
+    .tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .rung {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+    .rung:first-child { border-top: 0; padding-top: 0; }
+    .rung .tier {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .rung p { font-size: 15px; color: var(--muted); }
+    .rung strong { color: var(--ink); font-weight: 600; }
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: reason;
+    }
+    .reasons li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0 0 12px;
+      position: relative;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.4;
+      counter-increment: reason;
+      overflow: hidden;
+    }
+    .reasons li img {
+      display: block;
+      width: 100%;
+      height: 108px;
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .reasons li span { display: block; padding: 0 12px 0 32px; }
+    .reasons li::before {
+      content: counter(reason);
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      font-weight: 600;
+      color: var(--oxide);
+    }
+
+    .why {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .why li {
+      list-style: none;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      font-size: 15px;
+    }
+    .why { margin: 0; padding: 0; }
+    .why li strong { display: block; margin-bottom: 2px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+    }
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding: 0 12px 10px 0;
+    }
+    td {
+      padding: 12px 14px 12px 0;
+      border-top: 1px solid var(--line);
+      vertical-align: top;
+      color: var(--muted);
+    }
+    td:first-child {
+      color: var(--ink);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tr.ours td {
+      background: transparent;
+      color: var(--pine);
+    }
+    tr.ours td:first-child { color: var(--pine); }
+
+    .hand {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .hand .card { min-height: 92px; justify-content: flex-end; }
+    .hand .card span {
+      font-family: Literata, Georgia, serif;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .bet {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .bet li {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 8px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+      font-family: Literata, Georgia, serif;
+      font-size: clamp(20px, 2.4vw, 26px);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .bet.scan li {
+      padding: 9px 0;
+      font-size: 20px;
+      line-height: 1.28;
+    }
+    .bet.scan li.win,
+    .bet.scan li.win span { color: #0e7a45; }
+    .bet.scan li.fence,
+    .bet.scan li.fence span { color: #c45c12; }
+
+    .notes { grid-template-columns: 1fr 1fr; }
+    .notes .card { padding: 12px 14px; }
+    .notes .card p { font-size: 14.5px; line-height: 1.35; }
+    .test-block {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    .test-block > h3 { font-size: 22px; }
+    .hero-tests { gap: 10px; }
+    .hero-tests .card { padding: 10px 12px 8px; gap: 4px; }
+    .hero-tests h3 { font-size: 15px; }
+    .hero-tests ul { margin: 0; padding-left: 16px; }
+    .hero-tests li { font-size: 13px; line-height: 1.28; color: var(--muted); }
+
+    .rules {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .rules.reasons-3 { grid-template-columns: repeat(3, 1fr); }
+    .rules li {
+      font-size: 15px;
+      color: var(--muted);
+      padding-left: 14px;
+      position: relative;
+    }
+    .rules li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: var(--oxide);
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+    }
+    .points {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .points li {
+      color: var(--muted);
+      padding-left: 16px;
+      position: relative;
+    }
+    .points li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--oxide);
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+    }
+
+    .systems { gap: 14px; }
+    .systems .card { padding: 12px 12px 11px; gap: 6px; }
+    .systems .card h3 { font-size: 16px; letter-spacing: -0.02em; }
+    .systems .card p { font-size: 13.5px; line-height: 1.35; }
+
+    @media (max-width: 980px) {
+      .viewport { padding: 16px 14px 12px; justify-content: flex-start; }
+      html.js .slide.active {
+        height: auto;
+        min-height: calc(100dvh - 108px);
+      }
+      .slide { padding: 28px 20px 24px; }
+      .slideno { right: 16px; }
+      .split, .split.even, .play, .cols-3, .cols-4, .hero-tests, .facts, .rules, .hand, .mock, .mech, .reasons, .example-shots {
+        grid-template-columns: 1fr;
+      }
+      .phone-row .shotfig img { height: auto; max-height: 420px; }
+      .merge-shots { flex-wrap: wrap; }
+      .merge-shots img { height: auto; max-height: 200px; }
+      .upgrade-pair { flex-wrap: wrap; }
+      .upgrade-pair img { height: auto; max-height: 420px; }
+      .example-shots .dice img { height: auto; max-height: 420px; }
+      .mock video { height: auto; max-height: 420px; }
+      .sum { flex-direction: column; }
+    }
+
+    @media print {
+      body { background: white; }
+      .bar, .chrome { display: none !important; }
+      .viewport { display: block; padding: 0; }
+      .slide, html.js .slide {
+        display: flex !important;
+        height: auto !important;
+        overflow: visible !important;
+        box-shadow: none;
+        page-break-after: always;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+
+  <div class="viewport">
+    <section class="slide cover active" aria-label="Title">
+      <div class="slideno"><b>01</b> / 20</div>
+      <div>
+        <p class="kicker">RTS R&amp;D · mechanic study</p>
+        <h1>Warcraft III - A Full Packaged RTS</h1>
+        <p class="lede" style="margin-top: 14px;">A match is a base, a small army, a hero, and a map, running together. This deck lists those systems, walks one game, and marks what we can use in our RTS.</p>
+      </div>
+      <div class="eq" aria-hidden="true">
+        <div class="token">
+          <svg viewBox="0 0 32 32"><path d="M4 14 L16 4 L28 14 V28 H4 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 28 V20 H19 V28" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Base</span>
+          <span class="rk">Gold, lumber, chain</span>
+        </div>
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="8" cy="13" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="16" cy="13" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="24" cy="13" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 25 H11 M13 25 H19 M21 25 H27" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span class="who">Army</span>
+          <span class="rk">Small, and taxed</span>
+        </div>
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 26c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Hero</span>
+          <span class="rk">Levels and items</span>
+        </div>
+        <div class="token">
+          <svg viewBox="0 0 32 32"><rect x="5" y="5" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="20" r="1.6" fill="currentColor"/><circle cx="21" cy="12" r="1.6" fill="currentColor"/><path d="M12 20 L21 12" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+          <span class="who">Map</span>
+          <span class="rk">Camps, the enemy</span>
+        </div>
+      </div>
+      <p class="fine">Arrow keys move between slides. Melee rules, not custom maps. September 2026 · internal.</p>
+    </section>
+
+    <section class="slide" aria-label="The game">
+      <div class="slideno"><b>02</b> / 20</div>
+      <div>
+        <p class="kicker">The game</p>
+        <h2>Warcraft III</h2>
+      </div>
+      <p class="lede">Reign of Chaos released July 3, 2002 in the United States and Australia, and July 5 in Europe. The Frozen Throne expansion released July 1, 2003.</p>
+      <div class="facts">
+        <div class="fact">
+          <b>1 million</b>
+          <span>Sold worldwide in the first month. The fastest-selling PC game at the time, ahead of Diablo II. Third-best-selling computer game of 2002.</span>
+        </div>
+        <div class="fact">
+          <b>4.4 million</b>
+          <span>Copies shipped to stores for the launch. A shipment, not a sales total.</span>
+        </div>
+        <div class="fact">
+          <b>Over 3 million</b>
+          <span>Reign of Chaos sold by May 2003, when the expansion went gold.</span>
+        </div>
+        <div class="fact">
+          <b>92</b>
+          <span>Metacritic. GameSpot's game of the year. The Interactive Achievement Award for computer strategy.</span>
+        </div>
+      </div>
+      <div class="cols-3">
+        <article class="card">
+          <h3>The expansion</h3>
+          <p>The Frozen Throne had initial orders over 2.5 million. It sold more than 1 million copies by August 15, 2003.</p>
+        </article>
+        <article class="card">
+          <h3>Who played</h3>
+          <p>Matches run on Battle.net, with anonymous ladder matchmaking. Blizzard did not publish a lifetime player or install total.</p>
+        </article>
+        <article class="card">
+          <h3>Why it lasted</h3>
+          <p>The World Editor shipped with the game. Defense of the Ancients, a player-made map, is where the MOBA genre comes from.</p>
+        </article>
+      </div>
+      <div class="callout"><strong>Reforged, January 28, 2020.</strong> Both games in one client. Metacritic scored it 59. The update replaced the classic client, custom games and ranked play were worse at launch, and Blizzard offered refunds.</div>
+    </section>
+
+    <section class="slide systems" aria-label="Systems">
+      <div class="slideno"><b>03</b> / 20</div>
+      <div>
+        <p class="kicker">Systems</p>
+        <h2>List of Systems</h2>
+      </div>
+      <div class="cols-4">
+        <article class="card">
+          <span class="idx">01</span>
+          <h3>Scarcity in Multiple Resources</h3>
+          <p>Workers gather one or the other. A gold mine depletes.</p>
+        </article>
+        <article class="card">
+          <span class="idx">02</span>
+          <h3>Unit Production Limits</h3>
+          <p>Every unit costs food. The army caps at 100.</p>
+        </article>
+        <article class="card">
+          <span class="idx">03</span>
+          <h3>Income Tax on Army Size</h3>
+          <p>Depleting limited resources, competing goals, rush on time.</p>
+        </article>
+        <article class="card">
+          <span class="idx">04</span>
+          <h3>Prerequisite Build Gates</h3>
+          <p>Multiple building ladders that unlock new tiers and units.</p>
+        </article>
+        <article class="card">
+          <span class="idx">05</span>
+          <h3>Persistent Hero Growth</h3>
+          <p>Experience, skill points, auras, and customizable item builds. The piece that enhances your strategy.</p>
+        </article>
+        <article class="card">
+          <span class="idx">06</span>
+          <h3>Fog of War</h3>
+          <p>Unseen ground stays black. An army outside your sight is hidden.</p>
+        </article>
+        <article class="card">
+          <span class="idx">07</span>
+          <h3>Map Encounters for Rewards</h3>
+          <p>Gold from each creep. Experience for the hero. Often an item from the strongest one.</p>
+        </article>
+        <article class="card">
+          <span class="idx">08</span>
+          <h3>Damage Type Matchups</h3>
+          <p>Different attack types balancing each other in a rock, paper, scissors meta.</p>
+        </article>
+        <article class="card">
+          <span class="idx">09</span>
+          <h3>Upgrades That Change the Job</h3>
+          <p>Attack and armor for a class of unit, or a new behavior on one.</p>
+        </article>
+        <article class="card">
+          <span class="idx">10</span>
+          <h3>Rules That Change with Time</h3>
+          <p>At night, sight falls and most creeps sleep. One race can hide.</p>
+        </article>
+        <article class="card">
+          <span class="idx">11</span>
+          <h3>Asymmetric Faction Tools</h3>
+          <p>Different workers, buildings, and armies to create various gameplay styles and world building.</p>
+        </article>
+        <article class="card">
+          <span class="idx">12</span>
+          <h3>Multi-tasking Gameplay</h3>
+          <p>Balancing act between commanding units, map control, building expansion, and unit production.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Match loop">
+      <div class="slideno"><b>04</b> / 20</div>
+      <div>
+        <p class="kicker">The match</p>
+        <h2>Core Gameplay Loop</h2>
+      </div>
+      <ol class="bet">
+        <li><span>01</span>Gather two scarce resources. Workers are split between them, and a mine runs out.</li>
+        <li><span>02</span>Balance resource spend between buildings, units, and tech. Gold in a building or an upgrade is gold that is not in the army.</li>
+        <li><span>03</span>Take your hero and army to explore the map. Clear camps, enemy bases, and expand to new territories. Increase your resource generation through new bases and camps.</li>
+        <li><span>04</span>Multi-task across crucial decision points by balancing your time across commanding your army, resource production, upgrading your base tech ladders, and training more units. Crush the enemy bases to win.</li>
+      </ol>
+    </section>
+
+    <section class="slide" aria-label="Against a traditional RTS">
+      <div class="slideno"><b>05</b> / 20</div>
+      <div>
+        <p class="kicker">Against a traditional RTS</p>
+        <h2>How It Differentiates from a Traditional RTS</h2>
+      </div>
+      <p class="lede">Warcraft III keeps this package. These are the places it behaves differently.</p>
+      <div class="split even">
+        <article class="card">
+          <span class="idx">Traditional RTS</span>
+          <h3>Core Traits</h3>
+          <ul class="tight">
+            <li>Real-Time Gameplay</li>
+            <li>Resource Gathering</li>
+            <li>Base Building</li>
+            <li>Unit Production</li>
+            <li>Tech Upgrades</li>
+            <li>Single session battle</li>
+            <li>Command of multiple units &amp; groups</li>
+            <li>Top down overhead or isometric camera control</li>
+            <li>Simultaneous Macro vs. Micro gameplay</li>
+          </ul>
+        </article>
+        <article class="card focus">
+          <span class="idx">Warcraft III</span>
+          <h3>Differentiations</h3>
+          <ul class="tight">
+            <li>Choose a Hero to enhance your army and cast battle ending spells</li>
+            <li>Utilize items and equipment to customize your strategy</li>
+            <li>Night time changes rules of the game</li>
+            <li>Create new paths in the map through resource collection</li>
+            <li>Creeping: Destroy neutral camps for items and hero XP</li>
+            <li>Less is more: smaller army sizes, tankier HP pools, slower fights for more focused battles</li>
+            <li>Food Limits: Reduced resource output for exceeding unit limitations</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Player Feedback">
+      <div class="slideno"><b>06</b> / 20</div>
+      <div>
+        <p class="kicker">Takeaway</p>
+        <h2>Player Feedback</h2>
+      </div>
+      <ol class="bet">
+        <li><span>01</span>Players treat the hero as the center of the match. A level and an item count as their own advantage, beside gold and the map.</li>
+        <li><span>02</span>Creeps are the piece players say other RTS games do not have. Clearing a camp well takes routes and tricks that are not written on the unit.</li>
+        <li><span>03</span>Upkeep is the other system players argue over. Staying under the food line keeps full gold income, so a player can sit at home and bank it. Blizzard added the tax to punish that. In some matchups, the player who has to fight on the map is the one who pays.</li>
+        <li><span>04</span>Fights stay small and slow. Players stand their units around an enemy hero so it cannot walk out, and that trap can decide the fight. That same clumsy movement is what players from other RTS games reject. A few heroes are strong from the altar, and the rest of the roster barely shows up.</li>
+      </ol>
+    </section>
+
+    <section class="slide" aria-label="Scarcity">
+      <div class="slideno"><b>07</b> / 20</div>
+      <div>
+        <p class="kicker">Scarcity</p>
+        <h2>Scarcity in Multiple Resources</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/lumber.png" alt="Trees being cut for lumber. Gold and lumber are separate counts in the top bar." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Workers gather gold or lumber. A gold mine depletes, so the first base is a timer. A worker sent to one resource is absent from the other.</p>
+          <article class="card focus">
+            <span class="idx">01</span>
+            <h3>Depleting resources</h3>
+            <p>The next mine is guarded. Taking it means clearing a camp, and waiting too long starves the base.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">02</span>
+            <h3>Different types of resources</h3>
+            <p>Gold feeds the army. Lumber feeds the buildings. Both are required, and they are not substitutes.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">03</span>
+            <h3>Which one you need more</h3>
+            <p>The split moves. Early lumber for the chain, then gold for the army, then lumber again for the next tier.</p>
+          </article>
+          <p class="fine">Five workers is the efficient number on a mine when the hall sits beside it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Food">
+      <div class="slideno"><b>08</b> / 20</div>
+      <div>
+        <p class="kicker">Food</p>
+        <h2>Unit Production Limits</h2>
+      </div>
+      <p class="lede">Every unit costs food. The army caps at 100.</p>
+      <figure class="shotfig chart">
+        <img src="media/food.png" alt="A large army on screen. The food count and High Upkeep sit in the top bar." />
+      </figure>
+      <div class="cols-3">
+        <article class="card focus">
+          <span class="idx">01</span>
+          <h3>The price</h3>
+          <p>A worker, a soldier, and a hero each spend food. The number is on the unit.</p>
+        </article>
+        <article class="card focus">
+          <span class="idx">02</span>
+          <h3>The stop</h3>
+          <p>Production ends at 100 food. Buildings supply food up to that line, and they do not move it.</p>
+        </article>
+        <article class="card focus">
+          <span class="idx">03</span>
+          <h3>Not the tax</h3>
+          <p>Crossing a food line can also cut gold income. That is a separate system. The cap is the hard stop.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Upkeep">
+      <div class="slideno"><b>09</b> / 20</div>
+      <div>
+        <p class="kicker">Upkeep</p>
+        <h2>Income Tax on Army Size</h2>
+      </div>
+      <p class="lede">Past a food line, gold income falls. Lumber comes in full no matter how large the army is. The limited mine makes the tax a reason to move.</p>
+      <figure class="shotfig chart">
+        <img src="media/upkeep.png" alt="A gold mine with gold still in it. The top bar reads No Upkeep." />
+      </figure>
+      <div class="cols-3">
+        <article class="card focus">
+          <span class="idx">50 food and under</span>
+          <h3>No upkeep</h3>
+          <p>Gold income stays whole.</p>
+        </article>
+        <article class="card focus">
+          <span class="idx">51 to 80 food</span>
+          <h3>Low upkeep</h3>
+          <p>Gold income drops to 70%.</p>
+        </article>
+        <article class="card focus">
+          <span class="idx">81 food and above</span>
+          <h3>High upkeep</h3>
+          <p>Gold income drops to 40%.</p>
+        </article>
+      </div>
+      <p class="fine">These bands are The Frozen Throne's, and Reforged kept them.</p>
+    </section>
+
+    <section class="slide" aria-label="Build gates">
+      <div class="slideno"><b>10</b> / 20</div>
+      <div>
+        <p class="kicker">Build gates</p>
+        <h2>Prerequisite Build Gates</h2>
+      </div>
+      <div class="play portrait">
+        <figure class="shotfig">
+          <img src="media/build-gates.png" alt="A building ladder. Town Hall upgrades to Keep, then Castle. Barracks, towers, and the other buildings branch off that chain." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Multiple building ladders that unlock new tiers and units.</p>
+          <article class="card focus">
+            <span class="idx">Warcraft III</span>
+            <h3>The chain is the lock</h3>
+            <div class="tree">
+              <div class="rung"><span class="tier">Tier 1</span><p><strong>Hall, then a production building, then the unit.</strong> No building, no unit.</p></div>
+              <div class="rung"><span class="tier">Tier 2 and 3</span><p><strong>Upgrade the hall.</strong> The next buildings appear, and their units with them.</p></div>
+              <div class="rung"><span class="tier">Upgrades</span><p><strong>A separate building.</strong> It sells attack, armor, or a new behavior.</p></div>
+            </div>
+          </article>
+          <p class="fine">Human shape of the same lock: Town Hall, Barracks, Footman. Keep is the second tier. The Blacksmith sells the upgrades. The other races use different buildings and the same gates.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Heroes">
+      <div class="slideno"><b>11</b> / 20</div>
+      <div>
+        <p class="kicker">Heroes</p>
+        <h2>Persistent Hero Growth</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/100.jpg" alt="Warcraft III, 2001. A level 6 Blade Master selected, with health, mana, and the hero panel." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Experience, skill points, auras, and customizable item builds. The piece that enhances your strategy. You pick the hero. Each level gives a skill point. Most heroes can fill every skill by level 10.</p>
+          <article class="card focus">
+            <span class="idx">01</span>
+            <h3>How you enhance your units</h3>
+            <p>Auras and buffs ride with the hero. The army changes because of where the hero stands and which skill you took.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">02</span>
+            <h3>XP and leveling</h3>
+            <p>Camps and fights pay experience inside the match. A level is the result of what you just did.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">03</span>
+            <h3>Unique skills and passives</h3>
+            <p>Some skills are casts. Some are always on. Two heroes with the same army are different plans.</p>
+          </article>
+          <p class="fine">Strength, agility, and intelligence rise on their own. The player does not spend points on them. Ultimate skills open at level 6.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Fog of War">
+      <div class="slideno"><b>12</b> / 20</div>
+      <div>
+        <p class="kicker">Fog</p>
+        <h2>Fog of War</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/fog.png" alt="The same ground twice. A camp in sight on the left. On the right, that ground is black and the camp is gone." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Unseen ground stays black. An army outside your sight is hidden.</p>
+          <article class="card focus">
+            <span class="idx">01</span>
+            <h3>Never seen</h3>
+            <p>The map starts black. Camps, mines, and the enemy base stay unknown until a unit walks there.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">02</span>
+            <h3>Seen, then left</h3>
+            <p>Explored ground keeps its shape. Units on it disappear when nothing of yours can see them.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">03</span>
+            <h3>Sight is local</h3>
+            <p>A unit or a building sees a radius around itself. Allies share that sight.</p>
+          </article>
+          <p class="fine">Night shortens that radius for most races. That clock is a separate system.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Camps">
+      <div class="slideno"><b>13</b> / 20</div>
+      <div>
+        <p class="kicker">Camps</p>
+        <h2>Map Encounters for Rewards</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/camp-drop.png" alt="A cleared camp. The chest pays an item, and the hero takes Claws of Attack." />
+        </figure>
+        <div class="copy">
+          <div class="eq">
+            <div class="token">
+              <span class="who">Units</span>
+              <span class="rk">Risked</span>
+            </div>
+            <span class="op">+</span>
+            <div class="token">
+              <span class="who">Health</span>
+              <span class="rk">Spent</span>
+            </div>
+            <span class="op">+</span>
+            <div class="token">
+              <span class="who">Time</span>
+              <span class="rk">Away</span>
+            </div>
+            <span class="op">→</span>
+            <div class="token result">
+              <span class="who">The hero</span>
+              <span class="rk">Gold, level, item</span>
+            </div>
+          </div>
+          <article class="card focus">
+            <span class="idx">The pay</span>
+            <h3>Gold, a level, an item</h3>
+            <p>Each creep pays some gold. The hero gains experience. The strongest creep in the camp is usually the one that drops an item.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">The cost</span>
+            <h3>The army is the price</h3>
+            <p>Units walk out, take damage, and sometimes die. That time is not spent on the opponent's base.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">What stays</span>
+            <h3>What stays on the hero</h3>
+            <p>Gold is a bounty. The level and the item stay. A cleared camp does not come back, so the walk is a race to be first.</p>
+          </article>
+          <p class="fine">Creep experience stops at hero level 5. After that, a camp still pays gold and items. Further levels come from fighting players.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Damage types">
+      <div class="slideno"><b>14</b> / 20</div>
+      <div>
+        <p class="kicker">Damage types</p>
+        <h2>Damage Type Matchups</h2>
+      </div>
+      <p class="lede">Different attack types balancing each other in a rock, paper, scissors meta.</p>
+      <figure class="shotfig chart">
+        <img src="media/damage-chart.png" alt="Warcraft III damage chart. Each cell is the percent of the hit that lands for that attack against that armor." />
+      </figure>
+      <p class="fine">Attack is Normal, Pierce, Siege, Magic, Chaos, or Hero. Armor is Light, Medium, Heavy, Fortified, Unarmored, or Hero. The percent is not printed on the unit.</p>
+    </section>
+
+    <section class="slide" aria-label="Upgrades">
+      <div class="slideno"><b>15</b> / 20</div>
+      <div>
+        <p class="kicker">Upgrades</p>
+        <h2>Upgrades That Change the Job</h2>
+      </div>
+      <div class="play portrait">
+        <figure class="shotfig">
+          <img src="media/tech-tree.png" alt="Human tech tree. Grey arrows are upgrades. Red lines are what a building requires." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Attack and armor for a class of unit, or a new behavior on one.</p>
+          <article class="card focus">
+            <span class="idx">A class</span>
+            <h3>Attack and armor</h3>
+            <p>Bought at a building. Applied to a group, such as melee or ranged. The units hit harder or take less. The job stays.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">A unit</span>
+            <h3>A new behavior</h3>
+            <p>A Footman learns Defend. A Headhunter becomes a Berserker. An Archer mounts a Hippogryph. The unit is for something new.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Day and night">
+      <div class="slideno"><b>16</b> / 20</div>
+      <div>
+        <p class="kicker">Day and night</p>
+        <h2>Rules That Change with Time</h2>
+      </div>
+      <p class="lede">At night, sight falls and most creeps sleep. One race can hide.</p>
+      <figure class="shotfig chart">
+        <img src="media/day-night.png" alt="Warcraft III. Day on the left, with a human hero at a base. Night on the right, with a Night Elf hero still able to see." />
+      </figure>
+      <div class="split even">
+        <article class="card focus">
+          <span class="idx">Both players</span>
+          <h3>A clock on the match</h3>
+          <p>The map cycles between day and night. At night, sight drops, and nearly all creeps sleep. A sleeping camp does not chase you. Hit one, and the camp wakes.</p>
+        </article>
+        <article class="card focus">
+          <span class="idx">One race</span>
+          <h3>The exception</h3>
+          <p>Night Elves keep their sight. A Night Elf unit that stands still can hide. The sleep is the rule both players feel. The hide is the rule on one race.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Factions">
+      <div class="slideno"><b>17</b> / 20</div>
+      <div>
+        <p class="kicker">Factions</p>
+        <h2>Asymmetric Faction Tools</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/factions.png" alt="Warcraft III. Human and Night Elf across the top, Orc and Undead below." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Different workers, buildings, and armies to create various gameplay styles and world building.</p>
+          <article class="card focus">
+            <span class="idx">Human</span>
+            <h3>Militia</h3>
+            <p>Peasants build. Call to Arms turns them into militia, and Back to Work sends them back.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">Orc</span>
+            <h3>Burrow</h3>
+            <p>Peons build. A burrow supplies food, and peons can garrison inside it.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">Undead</span>
+            <h3>Blight</h3>
+            <p>Buildings need blight. Acolytes haunt a mine instead of carrying gold.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">Night Elf</span>
+            <h3>Ancients</h3>
+            <p>Wisps take lumber without felling the tree. Ancient buildings can uproot and walk.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Multi-tasking">
+      <div class="slideno"><b>18</b> / 20</div>
+      <div>
+        <p class="kicker">Multi-tasking</p>
+        <h2>Multi-tasking Gameplay</h2>
+      </div>
+      <div class="play">
+        <figure class="shotfig">
+          <img src="media/97.jpg" alt="Warcraft III, 2001. A footman is selected while a fight, towers, and the minimap are all on screen." />
+        </figure>
+        <div class="copy">
+          <p class="lede">Balancing act between commanding units, map control, building expansion, and unit production.</p>
+          <article class="card focus">
+            <span class="idx">At the base</span>
+            <h3>The queue keeps going</h3>
+            <p>Unit production, the worker split, and the next expansion. It runs while you look at the field, and it stops when the queue is empty.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">On the map</span>
+            <h3>The army does not wait</h3>
+            <p>Commanding units, the camp, and the path. It goes wrong in the time it takes to place a building.</p>
+          </article>
+          <div class="callout"><strong>The balancing act.</strong> Watch the fight too long and the base goes idle. Watch the base too long and a unit dies on the map.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="A new RTS">
+      <div class="slideno"><b>19</b> / 20</div>
+      <div>
+        <p class="kicker pine">A new RTS</p>
+        <h2>Interesting Differentiation Mechanics</h2>
+      </div>
+      <ol class="bet scan">
+        <li class="win"><span>1a</span>Iterate on different ways to represent and interact with the Hero of the map. Many versions and methods here.</li>
+        <li><span>1b</span>Items on Heroes. Worth holding outside the match as a larger meta layer, so the match itself stays simple.</li>
+        <li><span>03</span>Day and night is not a game changer. It is interesting to brainstorm on top of.</li>
+        <li><span>04</span>Opening new paths is not a big differentiator either. It needs more thought before it is worth pursuing.</li>
+        <li class="fence"><span>05</span>Creeping is an interesting addition. Would not make much impact in its original implementation, would need exploration around making it the main objective (PvPvE / Indirect PvP).</li>
+        <li class="win"><span>06</span>A smaller map, a smaller army, and more focused fights. Worth exploring how much each unit weighs, and an easier time showcasing the character's animation and art.</li>
+        <li><span>07</span>A food cap is an interesting layer to add, but it is not impactful enough on its own. It only shows up late, and it needs a partner such as merging.</li>
+        <li class="fence"><span>08</span>Damage types as rock-paper-scissors countering. Different ways to implement this, in unit type, armor type, and so on.</li>
+      </ol>
+    </section>
+
+    <section class="slide" aria-label="Takeaway">
+      <div class="slideno"><b>20</b> / 20</div>
+      <div>
+        <p class="kicker pine">Hero RPG</p>
+        <h2>Takeaway</h2>
+      </div>
+      <div class="cols-3 notes">
+        <article class="card">
+          <p>Lots of mechanics explored already in the Hero RPG prototype today, but only as one version. Worth revisiting and trying different versions of the concept.</p>
+        </article>
+        <article class="card">
+          <p>Simplification is often better for mobile. Lower the number of decisions and actions.</p>
+        </article>
+      </div>
+      <div class="test-block">
+        <h3>Playable Ideas - Iterate on the Hero Mechanic</h3>
+        <div class="cols-3 hero-tests">
+        <article class="card">
+          <h3>Movement</h3>
+          <ul>
+            <li>Stick control. The hero walks, troops follow.</li>
+            <li>Tap a point. The hero paths there, troops follow.</li>
+            <li>Steer the hero. The troops stay with the hero.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Skill usage</h3>
+          <ul>
+            <li>Skills on a cooldown</li>
+            <li>Skills on resource usage (mana)</li>
+            <li>Skills auto fire when a target is in range.</li>
+            <li>Skills are manually triggered.</li>
+            <li>Skills require gestures like flicks and swipes.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Hero selection</h3>
+          <ul>
+            <li>Chosen before the match and locked.</li>
+            <li>Two heroes at the start. Commit, then the fight starts.</li>
+            <li>Spawn one of three heroes of your choice every minute.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Leveling cadence</h3>
+          <ul>
+            <li>XP on a timer, so every fight hits the same beats.</li>
+            <li>XP on a timer, so a won exchange is the XP.</li>
+            <li>Choose your skills vs. auto selection</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Item drops</h3>
+          <ul>
+            <li>The gear is equipped outside the match.</li>
+            <li>Items can be picked up during the match.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>When the hero falls</h3>
+          <ul>
+            <li>Match ends if your hero dies</li>
+            <li>Heroes can be respawned on a timer</li>
+            <li>Heroes can be purchased again with resources after dying</li>
+          </ul>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <div class="chrome">
+      <button id="prev" type="button" aria-label="Previous slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <button id="next" type="button" aria-label="Next slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 L11 8 L6 13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <span class="hint">Arrows</span>
+      <span class="count" id="count" aria-live="polite">01  /  20</span>
+    </div>
+  </div>
+
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+      var n = slides.length;
+      document.documentElement.classList.add("js");
+      var i = 0;
+      var hash = parseInt(String(location.hash).replace("#", ""), 10);
+      if (hash >= 1 && hash <= n) i = hash - 1;
+
+      var count = document.getElementById("count");
+      var bar = document.getElementById("bar");
+      var prev = document.getElementById("prev");
+      var next = document.getElementById("next");
+
+      function render() {
+        slides.forEach(function (s, idx) {
+          var on = idx === i;
+          s.classList.toggle("active", on);
+          s.setAttribute("aria-hidden", on ? "false" : "true");
+          s.querySelectorAll("video").forEach(function (v) {
+            if (on) v.play().catch(function () {});
+            else v.pause();
+          });
+        });
+        count.textContent = String(i + 1).padStart(2, "0") + "  /  " + String(n).padStart(2, "0");
+        bar.style.transform = "scaleX(" + ((i + 1) / n) + ")";
+        prev.disabled = i === 0;
+        next.disabled = i === n - 1;
+        history.replaceState(null, "", "#" + (i + 1));
+        slides[i].scrollTop = 0;
+      }
+
+      function go(delta) {
+        var nextIndex = Math.min(n - 1, Math.max(0, i + delta));
+        if (nextIndex === i) return;
+        i = nextIndex;
+        render();
+      }
+
+      prev.addEventListener("click", function () { go(-1); });
+      next.addEventListener("click", function () { go(1); });
+
+      document.addEventListener("keydown", function (e) {
+        var tag = e.target && e.target.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA") return;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+          e.preventDefault();
+          go(1);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
+          e.preventDefault();
+          go(-1);
+        } else if (e.key === "Home") {
+          i = 0;
+          render();
+        } else if (e.key === "End") {
+          i = n - 1;
+          render();
+        }
+      });
+
+      var x0 = null;
+      document.addEventListener("touchstart", function (e) {
+        x0 = e.touches[0].clientX;
+      }, { passive: true });
+      document.addEventListener("touchend", function (e) {
+        if (x0 == null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+        x0 = null;
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
