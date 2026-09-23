@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mechanic Presentation</title>
+<style>
+  :root { --bg:#fdfcfa; --fg:#1f2328; --muted:#59636e; --line:#d1d9e0; --code:#f3f1ec; --link:#0b5fd1; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#15171a; --fg:#e6e6e3; --muted:#9aa0a6; --line:#33373d; --code:#22252a; --link:#6ea8fe; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  h1, h2, h3, h4 { line-height:1.25; margin:2em 0 .6em; }
+  h1 { font-size:2.1rem; margin-top:0; }
+  h2 { font-size:1.5rem; padding-bottom:.3em; border-bottom:1px solid var(--line); }
+  a { color:var(--link); }
+  img, video { max-width:100%; height:auto; border-radius:6px; }
+  code { font:.88em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:var(--code);
+          padding:.15em .35em; border-radius:4px; }
+  pre { background:var(--code); padding:1rem; border-radius:8px; overflow-x:auto; }
+  pre code { background:none; padding:0; }
+  blockquote { margin:1.2em 0; padding:.2em 1em; border-left:4px solid var(--line); color:var(--muted); }
+  table { border-collapse:collapse; display:block; overflow-x:auto; margin:1.2em 0; }
+  th, td { border:1px solid var(--line); padding:.45em .8em; text-align:left; }
+  th { background:var(--code); }
+  hr { border:0; border-top:1px solid var(--line); margin:2.5em 0; }
+  #fallback { white-space:pre-wrap; font:15px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+</style>
+</head>
+<body>
+<main id="content"><pre id="fallback"></pre></main>
+<script>window.__MD__ = "# Mechanic Presentation\n\nTurn this into an HTML or PDF presentation. Each heading is a section. Follow the instruction under it. Leave something out if you do not know it. Do not guess a cost, a rank, a timer, a multiplier, or a player, download, or revenue figure. Skip an optional section if you have nothing for it.\n\nInclude any pictures or video named below.\n\n## Target game\n\nOpen on one game. Name it, then state the core mechanic in a sentence or two before any rules. Show how the player interacts with it, then what is actually on screen in that moment. Close with a clip or screenshots that showcase the mechanic, and say what each one is there to show.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Game\n- Core mechanic, high level\n- Player interaction\n- What is shown on screen\n- Clip or screenshots for showcasing the mechanic\n\n## Statistics\n\nThis is the second section. Before the mechanic, give enough context to trust the game as a reference. Name when it released, who made it, where it runs, and how a match is played. Then the public numbers: players, revenue or sales, installs or downloads, and any other metric that shows scale. Date each figure and say where it came from. If the game is free to play, use revenue and downloads instead of unit sales. Close with the details that explain why it was popular or good, not only that the numbers are large.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Release date, developer, and publisher\n- Platforms and how a match is played\n- Revenue or sales, dated\n- Installs or downloads, dated\n- Players, if a public count exists, dated\n- A metric that shows people kept playing\n- Why the game was popular or good\n- Where each figure comes from\n\n## Mechanic details\n\nOnce the game is established, explain the mechanic. Start at a high level, then how it is used in this game. Name the gesture. Show how the mechanic appears, with screenshots of it in action if possible. Give the reasons it is successful. End with concepts worth exploring if we were to replicate it.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Mechanic, high level\n- How it's used in the target game\n- The gesture\n- How the mechanic is shown\n- Reasons for the mechanic being successful\n- Concepts to explore if we were to replicate the mechanic\n\n## Examples outside this game\n\nOptional. Isolate 2\u20133 games that are well known enough and use this mechanic. For each, show how it is used, how it differs from the target game, and why it works there. Include images or video if possible.\n\nRepeat for each game.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Game title\n- How the mechanic is used there\n- Differentiation from the original target game\n- Why it works for them\n- Images or videos\n\n## How this can be applied to our RTS\n\nBring the mechanic into our product. Show how it would be applied, with a visual mockup of how it could work if one exists. Name the areas still to explore. Add the supporting details that make this interesting.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Mechanic application to our product\n- Visual mockups of how it could work\n- Areas we need to explore with the mechanic\n- Any supporting details of why this is interesting\n\n## Why this can work\n\nClose on why you believe in this mechanic, or why it can meaningfully differentiate our product. Then say how complicated it may be to implement, and any related work that may be needed to support it.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Final summary of why you believe in this mechanic, or why it can meaningfully differentiate our product\n- How complicated it may be to implement\n- Scope details: any related work that may be needed to support the mechanic\n";
+document.getElementById("fallback").textContent = window.__MD__;</script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script>
+  if (window.marked) {
+    document.getElementById("content").innerHTML = marked.parse(window.__MD__, { gfm: true });
+  }
+</script>
+</body>
+</html>
