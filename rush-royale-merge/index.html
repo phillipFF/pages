@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rush Royale: The Merge Ladder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,520;7..72,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #cfc6b8;
+      --paper: #f3efe6;
+      --ink: #1c1914;
+      --muted: #5c564c;
+      --faint: #8a8276;
+      --line: #e3dacb;
+      --line-strong: #cfc4b2;
+      --card: #fffcf7;
+      --oxide: #8e3b28;
+      --oxide-soft: #f6ebe4;
+      --pine: #1e403a;
+      --pine-soft: #e5eeea;
+      --gold: #6e5830;
+      --gold-soft: #f4ecd9;
+      --shadow: 0 18px 50px rgba(48, 38, 22, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font: 17px/1.4 Outfit, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    button, input { font: inherit; color: inherit; }
+    button {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    :focus-visible {
+      outline: 2px solid var(--oxide);
+      outline-offset: 3px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 {
+      font-family: Literata, "Iowan Old Style", Palatino, Georgia, serif;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      text-wrap: balance;
+    }
+    h1 { font-size: clamp(44px, 5.4vw, 68px); padding-right: 72px; }
+    h2 { font-size: clamp(28px, 3vw, 38px); padding-right: 72px; }
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--oxide);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+    .kicker.pine { color: var(--pine); }
+    .lede {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 40em;
+    }
+    .fine {
+      color: var(--faint);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .shotfig { margin: 0; min-width: 0; }
+    .shotfig img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .shotfig figcaption {
+      margin-top: 6px;
+      color: var(--faint);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .shotfig.deck { max-width: 640px; }
+    .shotfig.pairshot img {
+      width: auto;
+      max-width: 100%;
+      max-height: 210px;
+    }
+    .tight {
+      margin: 4px 0 0;
+      padding-left: 18px;
+    }
+    .tight li {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 6px;
+    }
+    .example-shots {
+      display: grid;
+      grid-template-columns: auto repeat(3, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .example-shots img {
+      width: 100%;
+      height: 132px;
+      object-fit: cover;
+      object-position: center;
+    }
+    .example-shots .dice img {
+      width: auto;
+      height: 260px;
+      object-fit: contain;
+      object-position: top center;
+    }
+    .example-shots figcaption { text-align: center; }
+    .mech {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 28px;
+      align-items: center;
+    }
+    .mech-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 12px;
+      height: 75%;
+      min-height: 0;
+      align-self: center;
+    }
+    .mech-grid .card { height: 100%; }
+    .phone-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .phone-row .shotfig { width: auto; }
+    .phone-row .shotfig img {
+      width: auto;
+      height: min(430px, calc(100dvh - 360px));
+      max-height: none;
+      object-fit: contain;
+    }
+    .phone-row figcaption {
+      text-align: center;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .merge-shots {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+    }
+    .merge-shots .shotfig { width: auto; }
+    .merge-shots img {
+      width: auto;
+      height: 168px;
+      max-height: none;
+      object-fit: contain;
+    }
+    .upgrade-pair {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 28px;
+    }
+    .upgrade-pair .shotfig { width: auto; }
+    .upgrade-pair img {
+      width: auto;
+      height: min(280px, calc(100dvh - 460px));
+      max-height: none;
+      object-fit: contain;
+    }
+    .upgrade-pair figcaption { text-align: center; max-width: 280px; }
+    .rankread {
+      display: grid;
+      grid-template-columns: 148px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+    .rankread img {
+      width: 100%;
+      height: auto;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .mock {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      min-height: 0;
+    }
+    .mock video {
+      height: min(460px, calc(100dvh - 280px));
+      width: auto;
+      max-width: 100%;
+      display: block;
+      background: #1a1814;
+      border: 1px solid rgba(28, 25, 20, 0.2);
+    }
+    .mock .stack { max-width: 28em; }
+
+    .bar {
+      position: fixed;
+      z-index: 5;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(28, 25, 20, 0.12);
+    }
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: var(--oxide);
+      transform: scaleX(0.07);
+      transform-origin: left center;
+    }
+
+    .viewport {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 28px 16px;
+      gap: 14px;
+    }
+
+    .slide {
+      width: min(1120px, 100%);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      padding: 36px 44px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+    }
+    html.js .slide { display: none; }
+    html.js .slide.active {
+      display: flex;
+      height: min(680px, calc(100dvh - 108px));
+      overflow: auto;
+    }
+    .slide.cover { justify-content: center; gap: 28px; }
+
+    .slideno {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      color: var(--faint);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    .slideno b { color: var(--ink); font-weight: 600; }
+
+    .chrome {
+      width: min(1120px, 100%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chrome button {
+      width: 36px;
+      height: 36px;
+      border: 1px solid transparent;
+      background: rgba(255, 252, 247, 0.55);
+      color: var(--ink);
+    }
+    .chrome button:hover { background: var(--card); }
+    .chrome button:disabled { opacity: 0.35; cursor: default; }
+    .count {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+    }
+    .hint { color: var(--faint); font-size: 13px; }
+
+    .stack { display: flex; flex-direction: column; gap: 12px; max-width: 46em; }
+    .stack p { color: var(--muted); }
+    .stack strong { color: var(--ink); font-weight: 600; }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 0;
+    }
+    .split.even { grid-template-columns: 1fr 1fr; align-items: stretch; }
+    .cols-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .cols-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 16px 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    .card h3 { font-size: 20px; }
+    .card p { color: var(--muted); font-size: 15px; }
+    .card .idx {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      color: var(--faint);
+    }
+    .card.focus {
+      background: var(--oxide-soft);
+      border-color: #e4cfc4;
+    }
+    .card.focus .idx { color: var(--oxide); }
+    .card.ours {
+      background: var(--pine-soft);
+      border-color: #c9ddd6;
+    }
+    .card.ours .idx, .card.ours h3 { color: var(--pine); }
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .fact {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 16px 14px 14px;
+    }
+    .fact b {
+      display: block;
+      font-family: Literata, Georgia, serif;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .fact span { color: var(--muted); font-size: 14px; }
+
+    .eq {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .eq.center { justify-content: center; }
+    .op {
+      font-family: Literata, Georgia, serif;
+      font-size: 32px;
+      color: var(--faint);
+      line-height: 1;
+    }
+    .token {
+      width: 118px;
+      min-height: 132px;
+      background: var(--card);
+      border: 1.5px solid var(--ink);
+      padding: 12px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-align: center;
+    }
+    .token svg { width: 36px; height: 36px; }
+    .token .who {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .token .rk {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .token.result {
+      background: var(--oxide-soft);
+      border-color: var(--oxide);
+      color: var(--oxide);
+    }
+    .token.result .rk { color: var(--oxide); }
+    .token.building { border-radius: 0; }
+    .token.pine {
+      background: var(--pine-soft);
+      border-color: var(--pine);
+      color: var(--pine);
+    }
+    .token.pine .rk { color: var(--pine); }
+    .cover .token { width: 132px; min-height: 148px; }
+    .cover .token svg { width: 42px; height: 42px; }
+    .slide.rts { gap: 26px; }
+    .slide.rts .card { padding: 14px 16px 12px; gap: 8px; }
+    .slide.rts .token { width: 104px; min-height: 108px; padding: 8px; }
+    .slide.rts .token svg { width: 28px; height: 28px; }
+
+    .ranks {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .ranks li {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      background: var(--card);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .ranks li.on {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .ranks li.next {
+      background: var(--oxide);
+      color: white;
+      border-color: var(--oxide);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+    .cell {
+      aspect-ratio: 1;
+      border: 1px solid var(--line-strong);
+      background: #f7f3eb;
+      display: grid;
+      place-items: center;
+    }
+    .cell.filled {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
+    .cell.filled span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+    .cell.open {
+      border-style: dashed;
+      border-color: var(--oxide);
+      background: var(--oxide-soft);
+    }
+
+    .math {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sum {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sum .op { flex: 0 0 auto; }
+    .pile {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .pile b {
+      font-family: Literata, Georgia, serif;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+    .pile span { color: var(--muted); font-size: 14px; }
+    .pile.out {
+      background: var(--oxide-soft);
+      border-color: #e4cfc4;
+    }
+    .pile.out b { color: var(--oxide); }
+    .callout {
+      background: var(--gold-soft);
+      border-left: 3px solid var(--gold);
+      padding: 12px 14px;
+      color: var(--ink);
+      font-size: 15px;
+    }
+    .callout strong { font-weight: 600; }
+
+    .tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .rung {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+    .rung:first-child { border-top: 0; padding-top: 0; }
+    .rung .tier {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .rung p { font-size: 15px; color: var(--muted); }
+    .rung strong { color: var(--ink); font-weight: 600; }
+    .reasons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: reason;
+    }
+    .reasons li {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 0 0 12px;
+      position: relative;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.4;
+      counter-increment: reason;
+      overflow: hidden;
+    }
+    .reasons li img {
+      display: block;
+      width: 100%;
+      height: 108px;
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    .reasons li span { display: block; padding: 0 12px 0 32px; }
+    .reasons li::before {
+      content: counter(reason);
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      font-weight: 600;
+      color: var(--oxide);
+    }
+
+    .why {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .why li {
+      list-style: none;
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      font-size: 15px;
+    }
+    .why { margin: 0; padding: 0; }
+    .why li strong { display: block; margin-bottom: 2px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14.5px;
+    }
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding: 0 12px 10px 0;
+    }
+    td {
+      padding: 12px 14px 12px 0;
+      border-top: 1px solid var(--line);
+      vertical-align: top;
+      color: var(--muted);
+    }
+    td:first-child {
+      color: var(--ink);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tr.ours td {
+      background: transparent;
+      color: var(--pine);
+    }
+    tr.ours td:first-child { color: var(--pine); }
+
+    .hand {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+    .hand .card { min-height: 92px; justify-content: flex-end; }
+    .hand .card span {
+      font-family: Literata, Georgia, serif;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .bet {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .bet li {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 8px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+      font-family: Literata, Georgia, serif;
+      font-size: clamp(20px, 2.4vw, 26px);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .bet li span {
+      font-family: Outfit, "Segoe UI", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--oxide);
+    }
+
+    .rules {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 22px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .rules.reasons-3 { grid-template-columns: repeat(3, 1fr); }
+    .rules li {
+      font-size: 15px;
+      color: var(--muted);
+      padding-left: 14px;
+      position: relative;
+    }
+    .rules li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background: var(--oxide);
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+    }
+    .points {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .points li {
+      color: var(--muted);
+      padding-left: 16px;
+      position: relative;
+    }
+    .points li::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--oxide);
+      position: absolute;
+      left: 0;
+      top: 0.5em;
+    }
+
+    @media (max-width: 980px) {
+      .viewport { padding: 16px 14px 12px; justify-content: flex-start; }
+      html.js .slide.active {
+        height: auto;
+        min-height: calc(100dvh - 108px);
+      }
+      .slide { padding: 28px 20px 24px; }
+      .slideno { right: 16px; }
+      .split, .split.even, .cols-3, .cols-4, .facts, .rules, .hand, .mock, .mech, .reasons, .example-shots {
+        grid-template-columns: 1fr;
+      }
+      .phone-row .shotfig img { height: auto; max-height: 420px; }
+      .merge-shots { flex-wrap: wrap; }
+      .merge-shots img { height: auto; max-height: 200px; }
+      .upgrade-pair { flex-wrap: wrap; }
+      .upgrade-pair img { height: auto; max-height: 420px; }
+      .example-shots .dice img { height: auto; max-height: 420px; }
+      .mock video { height: auto; max-height: 420px; }
+      .sum { flex-direction: column; }
+    }
+
+    @media print {
+      body { background: white; }
+      .bar, .chrome { display: none !important; }
+      .viewport { display: block; padding: 0; }
+      .slide, html.js .slide {
+        display: flex !important;
+        height: auto !important;
+        overflow: visible !important;
+        box-shadow: none;
+        page-break-after: always;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+
+  <div class="viewport">
+    <section class="slide cover active" aria-label="Title">
+      <div class="slideno"><b>01</b> / 14</div>
+      <div>
+        <p class="kicker">RTS R&amp;D · mechanic study</p>
+        <h1>Rush Royale: The Merge Ladder</h1>
+        <p class="lede" style="margin-top: 14px;">Rush Royale's main mechanic requires players to merge units, interpreted as a traditional tech tree. We will cover what we can incorporate into our own product.</p>
+      </div>
+      <div class="eq" aria-hidden="true">
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 26c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Same troop</span>
+          <span class="rk">Rank 1</span>
+        </div>
+        <span class="op">+</span>
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 26c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Same troop</span>
+          <span class="rk">Rank 1</span>
+        </div>
+        <span class="op">→</span>
+        <div class="token result">
+          <svg viewBox="0 0 32 32"><path d="M16 25 V9 M9 16 L16 8 L23 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"/></svg>
+          <span class="who">Next rung</span>
+          <span class="rk">Rank 2</span>
+        </div>
+      </div>
+      <p class="fine">Arrow keys move between slides. September 2026 · internal.</p>
+    </section>
+
+    <section class="slide" aria-label="About the game">
+      <div class="slideno"><b>02</b> / 14</div>
+      <div>
+        <p class="kicker">The game</p>
+        <h2>A tower defense that kept its audience</h2>
+        <p class="lede" style="margin-top: 10px;">Free to play. IT Territory built it, and My.Games released it worldwide on December 8, 2020, for iOS, Android, and PC. The match is PvP, with co-op beside it.</p>
+      </div>
+      <div class="facts">
+        <div class="fact">
+          <b>$500M</b>
+          <span>Lifetime revenue by June 2026. It stood at $230 million in June 2023.</span>
+        </div>
+        <div class="fact">
+          <b>105M</b>
+          <span>Downloads by June 2026. It crossed 100 million at the fifth anniversary.</span>
+        </div>
+        <div class="fact">
+          <b>1.14M</b>
+          <span>Daily players in June 2023, and more than 6 million in that month. The latest public count.</span>
+        </div>
+        <div class="fact">
+          <b>6B</b>
+          <span>Battles in the first five years. More than 3.7 billion of them were PvP.</span>
+        </div>
+      </div>
+      <div class="cols-3">
+        <article class="card">
+          <span class="idx">Why it held</span>
+          <h3>Decks stay open</h3>
+          <p>Players built more than 10.5 million unique decks by December 2025. The board is not one solved lineup.</p>
+        </article>
+        <article class="card">
+          <span class="idx">Why it held</span>
+          <h3>The category, in 2022</h3>
+          <p>Reported as the most-installed tower-defense strategy game, and My.Games’ second-highest earner that year, at $102 million.</p>
+        </article>
+        <article class="card">
+          <span class="idx">Why it held</span>
+          <h3>Still a live game</h3>
+          <p>Revenue more than doubled after 2023. In 2026 it was still shipping events, including a Pac-Man co-op crossover.</p>
+        </article>
+      </div>
+      <p class="fine">Publisher figures. Revenue and downloads: My.Games, June 23, 2026. Players: My.Games, June 2023. Battles and decks: My.Games, December 2025. The 2022 rank is reported for that year.</p>
+    </section>
+
+    <section class="slide" aria-label="Why this game">
+      <div class="slideno"><b>03</b> / 14</div>
+      <div>
+        <p class="kicker">Why this game</p>
+        <h2>Growth you can drag</h2>
+      </div>
+      <div class="mock">
+        <video src="media/rush-royale-0254-0306.mp4" controls loop playsinline preload="metadata" aria-label="Twelve seconds of Rush Royale gameplay, from 2:54 to 3:06"></video>
+        <div class="stack">
+          <p>Rush Royale is a PvP tower defense from IT Territory and My.Games. Troops stand on a small grid and hold a lane of monsters. Kills pay mana, and mana is the currency of the match.</p>
+          <p>That mana grows the board in two ways.</p>
+          <ul class="points">
+            <li><strong>Merging</strong> spends two troops to raise one rank.</li>
+            <li><strong>Upgrading</strong> spends mana to raise every troop of a single type.</li>
+          </ul>
+          <p>A deck of five is the list both actions draw from.</p>
+          <p>An RTS tech tree asks a player to spend for a better line of production. This game makes that spend a placement. The drag, the ladder, and the choice of which line to feed are the parts worth carrying into our title.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Four mechanics">
+      <div class="slideno"><b>04</b> / 14</div>
+      <div>
+        <p class="kicker">The match</p>
+        <h2>Four mechanics, one economy</h2>
+      </div>
+      <div class="mech">
+        <div class="mech-grid">
+          <article class="card">
+            <span class="idx">01</span>
+            <h3>Deploy</h3>
+            <p>Spend mana. A rank-1 troop from the deck lands on an open tile.</p>
+          </article>
+          <article class="card focus">
+            <span class="idx">02 · focus</span>
+            <h3>Merge</h3>
+            <p>Two of a kind, same rank, become one troop a rank higher.</p>
+          </article>
+          <article class="card">
+            <span class="idx">03</span>
+            <h3>Upgrade a type</h3>
+            <p>Spend mana so every troop of one card gets stronger.</p>
+          </article>
+          <article class="card">
+            <span class="idx">04</span>
+            <h3>The deck</h3>
+            <p>Five cards set the odds for both the summon and the merge.</p>
+          </article>
+        </div>
+        <div class="phone-row">
+          <figure class="shotfig">
+            <img src="media/home-battle.png" alt="Rush Royale home screen, with the equipped deck and the PvP battle button." />
+            <figcaption>Home Battle Screen</figcaption>
+          </figure>
+          <figure class="shotfig">
+            <img src="media/deck-edit.png" alt="Rush Royale cards screen, with the equipped row and the unit collection below it." />
+            <figcaption>Deck Edit Screen</figcaption>
+          </figure>
+        </div>
+      </div>
+      <p class="fine">Merge is the ladder. The other three decide what you have to climb with, and whether climbing was worth the tile.</p>
+    </section>
+
+    <section class="slide" aria-label="Merge troops">
+      <div class="slideno"><b>05</b> / 14</div>
+      <div>
+        <p class="kicker">02 · Merge troops · the ladder</p>
+        <h2>The rank climbs. The card is a roll.</h2>
+      </div>
+      <div class="eq">
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 26c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Same card</span>
+          <span class="rk">Rank 1</span>
+        </div>
+        <span class="op">+</span>
+        <div class="token">
+          <svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 26c1.5-5 5-7 9-7s7.5 2 9 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Same card</span>
+          <span class="rk">Rank 1</span>
+        </div>
+        <span class="op">→</span>
+        <div class="token result">
+          <svg viewBox="0 0 32 32"><path d="M12 13.2c.3-2.8 2.2-4.6 4.6-4.6 2.7 0 4.6 1.9 4.6 4.3 0 2.3-1.5 3.3-2.9 4.2-1.2.8-1.8 1.5-1.8 2.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="16.5" cy="24.2" r="1.15" fill="currentColor"/></svg>
+          <span class="who">Random card</span>
+          <span class="rk">Rank 2</span>
+        </div>
+      </div>
+      <div class="merge-shots">
+        <figure class="shotfig">
+          <img src="media/merge-spend.png" alt="Rush Royale board during a merge. Two matching rank-1 troops are dragged together among other rank-1 circles." />
+          <figcaption>Two of a kind go in</figcaption>
+        </figure>
+        <figure class="shotfig">
+          <img src="media/merge-result.png" alt="Rush Royale board after a merge. A glowing higher-rank troop appears that is not the same card as the troops around it." />
+          <figcaption>A different card can come out</figcaption>
+        </figure>
+      </div>
+      <div>
+        <ol class="ranks" aria-label="Ranks 1 through 7">
+          <li class="on">1</li>
+          <li class="next">2</li>
+          <li>3</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <li>7</li>
+        </ol>
+        <p class="fine" style="margin-top: 10px;">Rank always goes up by one. Which card appears is drawn again from the whole deck, including the pair you just spent. Two archers can become a rank-2 of any of the five.</p>
+      </div>
+      <div>
+        <p class="kicker">Reasons for merging</p>
+        <ul class="rules reasons-3">
+          <li>Searching for a particular unit to counter opponents.</li>
+          <li>A specific ability or passive needed for the player's strategy.</li>
+          <li>Running out of space on your own playable tiles.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <section class="slide" aria-label="Rank frames from the match">
+      <div class="slideno"><b>06</b> / 14</div>
+      <div>
+        <p class="kicker">02 · Merge troops · from the match</p>
+        <h2>The frame is the rank</h2>
+      </div>
+      <div class="split even">
+        <figure class="shotfig">
+          <img src="media/grid-ranks.png" alt="Player board about a minute into the match. Six troops: two copies of a wizard in a triangle and a pointed oval, and four other troops in circles." />
+          <figcaption>About a minute in. Three frame shapes, and no rank number to read.</figcaption>
+        </figure>
+        <div class="rankread">
+          <img src="media/ranks-pair.png" alt="The same wizard twice on adjacent tiles. The upper frame is a triangle. The lower frame is a pointed oval." />
+          <ul class="why">
+            <li><strong>Rank 1 - Circle</strong> The other four troops on this board.</li>
+            <li><strong>Rank 2 - Pointed oval</strong> The lower wizard.</li>
+            <li><strong>Rank 3 - Triangle</strong> The upper wizard. Same card, one rung higher.</li>
+            <li><strong>Seen, not read</strong> Rank is the silhouette. The player tells the rungs apart without a line of text, so the board stays clear.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="fine">L.1 on a card is that card's level. The shape around the troop is the merge rank. Same unit, two different numbers, and only one of them has to be read.</p>
+    </section>
+
+    <section class="slide" aria-label="What a rung costs">
+      <div class="slideno"><b>07</b> / 14</div>
+      <div>
+        <p class="kicker">02 · Merge troops</p>
+        <h2>Climbing compresses the board</h2>
+      </div>
+      <div class="split even">
+        <div class="math">
+          <div class="sum">
+            <div class="pile"><b>4</b><span>Base output of the two rank-2 troops you spend. Each one is worth two rank-1s.</span></div>
+            <span class="op">→</span>
+            <div class="pile out"><b>3</b><span>Base output of the rank-3 that replaces them. One body, one tile freed.</span></div>
+          </div>
+          <p class="fine">Guides agree a merge drops total damage until the empty tile is filled. The usual model is base output × rank, then an upgrade bonus on each troop. Confirm the multiplier on a current build before treating it as a tuning number.</p>
+        </div>
+        <div>
+          <p class="kicker" style="margin-bottom: 8px;">Why a player still merges</p>
+          <ul class="why">
+            <li><strong>Free a tile</strong> so the next summon has somewhere to land.</li>
+            <li><strong>Draw a different card</strong> when the troop on the board is the wrong one.</li>
+            <li><strong>Hit a rank threshold</strong> on a support whose effect cares about the rung more than the body count.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout"><strong>For our ladder.</strong> A tier that only returns the strength it consumed is a rung players leave alone. The step up has to change what that unit or building does.</div>
+    </section>
+
+    <section class="slide" aria-label="Two ways to use merge">
+      <div class="slideno"><b>08</b> / 14</div>
+      <div>
+        <p class="kicker">Ways to aim the gesture</p>
+        <h2>Goal: Explore Bigger Units or Better Buildings</h2>
+      </div>
+      <div class="split even">
+        <article class="card">
+          <span class="idx">Units · a body ladder</span>
+          <h3>Two become a larger one</h3>
+          <div class="tree">
+            <div class="rung"><span class="tier">Tier 1</span><p><strong>Soldier.</strong> The copy you deploy.</p></div>
+            <div class="rung"><span class="tier">Tier 2</span><p><strong>Veteran.</strong> Two soldiers fuse. Can now attack air units. Tankier.</p></div>
+            <div class="rung"><span class="tier">Tier 3</span><p><strong>Champion.</strong> Two veterans fuse. Access to new passive skill.</p></div>
+          </div>
+        </article>
+        <article class="card ours">
+          <span class="idx">Buildings · a structure ladder</span>
+          <h3>Two become the next tier</h3>
+          <div class="tree">
+            <div class="rung"><span class="tier">Tier 1</span><p><strong>Barracks.</strong> Produces the base infantry.</p></div>
+            <div class="rung"><span class="tier">Tier 2</span><p><strong>Barracks II.</strong> Two barracks fuse. Spawns now produce Veteran units.</p></div>
+            <div class="rung"><span class="tier">Tier 3</span><p><strong>Barracks III.</strong> Two of the second tier. Spawns now produce Champion units.</p></div>
+          </div>
+        </article>
+      </div>
+      <div>
+        <p class="kicker">Potential reasons to merge in our playable</p>
+        <ol class="reasons">
+          <li>
+            <img src="media/merge-reason-better.png" alt="Two plain soldiers beside a barracks become one larger spearman striking a flying creature." />
+            <span>Output of better units in the same time frame. Better stats, better skills.</span>
+          </li>
+          <li>
+            <img src="media/merge-reason-pivot.png" alt="Two barracks fuse and the units coming out switch to archers facing a wave of flying enemies." />
+            <span>Output of different units to quickly pivot production type for countering (or being countered).</span>
+          </li>
+          <li>
+            <img src="media/merge-reason-save.png" alt="Two wounded soldiers merge into one healthy soldier as a boulder strikes the ground they left." />
+            <span>Healing or saving units from killing blows with good merge timings.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Upgrade a type">
+      <div class="slideno"><b>09</b> / 14</div>
+      <div>
+        <p class="kicker">03 · Upgrade all troops of a type</p>
+        <h2>Upgrading: Enhancing your most popular units</h2>
+      </div>
+      <p class="lede">The number under a card spends mana to upgrade <strong>every troop of that type</strong>, the ones on the board and the ones still to be summoned. L.1 on the portrait is the card's level. The shape around a troop on the board is the merge rank.</p>
+      <div class="upgrade-pair">
+        <figure class="shotfig">
+          <img src="media/upgrade-before.png" alt="Rush Royale match before a type upgrade. Mana pool reads 100, and the cards along the bottom show their level and potion cost." />
+          <figcaption><strong>Before the spend.</strong> Pool is 100. Each card shows its level, and the potion under it is the cost to upgrade that type.</figcaption>
+        </figure>
+        <figure class="shotfig">
+          <img src="media/upgrade-after.png" alt="The same match after the upgrade. Power Up appears on troops on the board, the pool reads 29, and a card has stepped up to L.2." />
+          <figcaption><strong>After.</strong> Power Up! hits the troops already on the board. A card now reads L.2, and the pool is down to 29.</figcaption>
+        </figure>
+      </div>
+      <div class="callout"><strong>Together they are a tree.</strong> Merge climbs one token and can change the card. This spend keeps the card and thickens every copy. Mana poured into one card makes that card the plan.</div>
+    </section>
+
+    <section class="slide" aria-label="Similar games">
+      <div class="slideno"><b>10</b> / 14</div>
+      <div>
+        <p class="kicker">The same family</p>
+        <h2>Two other merge gameplay examples</h2>
+      </div>
+      <div class="split even">
+        <article class="card">
+          <span class="idx">Random Dice · 111%</span>
+          <h3>Pips, type redrawn</h3>
+          <ul class="tight">
+            <li>Same type and pip count become pip + 1. The type is redrawn.</li>
+            <li>An SP power-up buffs one type for the match, up to 5 levels.</li>
+            <li>Two 2-pip dice become one 3-pip. Output compresses.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="idx">Teamfight Tactics · Riot</span>
+          <h3>Same champion, next star</h3>
+          <ul class="tight">
+            <li>Three copies of one champion become the next star. The champion stays.</li>
+            <li>Nine copies make a 3-star. Stars stop at three.</li>
+            <li>The combine is automatic. Chance lives in the shop.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="example-shots">
+        <figure class="shotfig dice">
+          <img src="media/random-dice.png" alt="Random Dice board with dice of different pip counts, and type levels along the bottom." />
+          <figcaption>Pips on the board</figcaption>
+        </figure>
+        <figure class="shotfig">
+          <img src="media/tft-shop.jpg" alt="Teamfight Tactics shop with two copies of the same champion." />
+          <figcaption>Buy copies in the shop</figcaption>
+        </figure>
+        <figure class="shotfig">
+          <img src="media/tft-burst.jpg" alt="A combine flash on the Teamfight Tactics board." />
+          <figcaption>Merge three copies together</figcaption>
+        </figure>
+        <figure class="shotfig">
+          <img src="media/tft-stars.jpg" alt="Stars above a champion on the Teamfight Tactics board." />
+          <figcaption>Same champion, additional star, stronger stats</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide rts" aria-label="On our RTS today">
+      <div class="slideno"><b>11</b> / 14</div>
+      <div>
+        <p class="kicker pine">On our RTS today</p>
+        <h2>Fuse the building. Boost the spawn.</h2>
+      </div>
+      <div class="cols-3">
+        <article class="card ours">
+          <span class="idx">01</span>
+          <h3>Drag buildings to fuse</h3>
+          <p>Drop a building on a matching one. One site, the next tier of that building.</p>
+        </article>
+        <article class="card ours">
+          <span class="idx">02</span>
+          <h3>Tier boosts the spawn</h3>
+          <p>A higher tier spawns units with better stats. The ladder shows up in the army.</p>
+        </article>
+        <article class="card ours">
+          <span class="idx">03</span>
+          <h3>Focus a line to counter</h3>
+          <p>Pour fusions into one type and that type becomes the answer. A spread stays on the bottom rung.</p>
+        </article>
+      </div>
+      <div class="eq center" aria-hidden="true">
+        <div class="token pine">
+          <svg viewBox="0 0 32 32"><path d="M4 14 L16 4 L28 14 V28 H4 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 28 V20 H19 V28" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Barracks</span>
+          <span class="rk">Tier 1</span>
+        </div>
+        <span class="op">+</span>
+        <div class="token pine">
+          <svg viewBox="0 0 32 32"><path d="M4 14 L16 4 L28 14 V28 H4 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13 28 V20 H19 V28" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Barracks</span>
+          <span class="rk">Tier 1</span>
+        </div>
+        <span class="op">→</span>
+        <div class="token pine">
+          <svg viewBox="0 0 32 32"><path d="M3 16 L16 4 L29 16 V28 H3 Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 28 V19 H20 V28" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          <span class="who">Barracks II</span>
+          <span class="rk">Stronger infantry</span>
+        </div>
+      </div>
+      <p>The same concept can be applied to units.</p>
+      <div class="split even">
+        <article class="card ours">
+          <span class="idx">Version A</span>
+          <h3>Merge the buildings</h3>
+          <p>Turf Master gameplay, with the ability to drag and merge any buildings of the same type to upgrade them.</p>
+        </article>
+        <article class="card ours">
+          <span class="idx">Version B</span>
+          <h3>Merge the march</h3>
+          <p>Drag any spawned units of the same type together to upgrade them.</p>
+          <p><strong>Macro.</strong> Spawning buildings.</p>
+          <p><strong>Micro.</strong> Merging units that are marching.</p>
+        </article>
+      </div>
+    </section>
+
+
+    <section class="slide" aria-label="Building merge mockup">
+      <div class="slideno"><b>12</b> / 14</div>
+      <div>
+        <p class="kicker pine">On our RTS today · mockup</p>
+        <h2>Same building, next tier</h2>
+      </div>
+      <div class="mock">
+        <video src="media/building-merge-mockup.mp4" controls loop playsinline preload="metadata" aria-label="Mockup of two matching buildings merging into one upgraded building"></video>
+        <div class="stack">
+          <p>Two level-1 buildings of the same type sit on the hex. Drag one onto the other.</p>
+          <p>They occupy one site and come back as <strong>level 2</strong>. The tier shows up beside the building: a heavier unit than the level-1 spawn.</p>
+          <p class="fine">Mockup of the gesture. Identity stays with the building line. The promotion is the step the player meant to take.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="Troop merge mockup">
+      <div class="slideno"><b>13</b> / 14</div>
+      <div>
+        <p class="kicker pine">On our RTS today · mockup</p>
+        <h2>Same troop, next tier</h2>
+      </div>
+      <div class="mock">
+        <video src="media/troop-merge-mockup.mp4" controls loop playsinline preload="metadata" aria-label="Mockup of two matching troops merging into one heavier unit"></video>
+        <div class="stack">
+          <p>Two troops of the same type are on the march. Drag one onto the other.</p>
+          <p>They come back as <strong>one heavier unit</strong> of that line. The buildings stay put. The merge happens in the army.</p>
+          <p class="fine">Mockup of the gesture. Identity stays with the unit line. The promotion is the step the player meant to take.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-label="The bet">
+      <div class="slideno"><b>14</b> / 14</div>
+      <div>
+        <p class="kicker pine">The bet</p>
+        <h2>A tech tree you operate by hand</h2>
+      </div>
+      <ol class="bet">
+        <li><span>01</span>Simplification of a complex RTS tech tree.</li>
+        <li><span>02</span>Merging through drag and drop for easy mobile input.</li>
+        <li><span>03</span>Additional agency and strategy injected into gameplay.</li>
+        <li><span>04</span>Dopamine hit when successfully merging to the highest, coolest unit.</li>
+        <li><span>05</span>Upgrading mechanic is not a big enough gameplay change to make a meaningful impact alone.</li>
+      </ol>
+    </section>
+
+    <div class="chrome">
+      <button id="prev" type="button" aria-label="Previous slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <button id="next" type="button" aria-label="Next slide">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3 L11 8 L6 13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <span class="hint">Arrows</span>
+      <span class="count" id="count" aria-live="polite">01  /  14</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+      var n = slides.length;
+      document.documentElement.classList.add("js");
+      var i = 0;
+      var hash = parseInt(String(location.hash).replace("#", ""), 10);
+      if (hash >= 1 && hash <= n) i = hash - 1;
+
+      var count = document.getElementById("count");
+      var bar = document.getElementById("bar");
+      var prev = document.getElementById("prev");
+      var next = document.getElementById("next");
+
+      function render() {
+        slides.forEach(function (s, idx) {
+          var on = idx === i;
+          s.classList.toggle("active", on);
+          s.setAttribute("aria-hidden", on ? "false" : "true");
+          s.querySelectorAll("video").forEach(function (v) {
+            if (on) v.play().catch(function () {});
+            else v.pause();
+          });
+        });
+        count.textContent = String(i + 1).padStart(2, "0") + "  /  " + String(n).padStart(2, "0");
+        bar.style.transform = "scaleX(" + ((i + 1) / n) + ")";
+        prev.disabled = i === 0;
+        next.disabled = i === n - 1;
+        history.replaceState(null, "", "#" + (i + 1));
+        slides[i].scrollTop = 0;
+      }
+
+      function go(delta) {
+        var nextIndex = Math.min(n - 1, Math.max(0, i + delta));
+        if (nextIndex === i) return;
+        i = nextIndex;
+        render();
+      }
+
+      prev.addEventListener("click", function () { go(-1); });
+      next.addEventListener("click", function () { go(1); });
+
+      document.addEventListener("keydown", function (e) {
+        var tag = e.target && e.target.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA") return;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+          e.preventDefault();
+          go(1);
+        } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
+          e.preventDefault();
+          go(-1);
+        } else if (e.key === "Home") {
+          i = 0;
+          render();
+        } else if (e.key === "End") {
+          i = n - 1;
+          render();
+        }
+      });
+
+      var x0 = null;
+      document.addEventListener("touchstart", function (e) {
+        x0 = e.touches[0].clientX;
+      }, { passive: true });
+      document.addEventListener("touchend", function (e) {
+        if (x0 == null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+        x0 = null;
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>
