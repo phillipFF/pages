@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RTS and the games around it</title>
+  <title>RTS Game Database</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,520;7..72,650&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -376,7 +376,7 @@
 <body>
   <main class="page">
     <p class="kicker">Catalog · September 2026</p>
-    <h1>RTS and the games around it</h1>
+    <h1>RTS Game Database</h1>
     <p class="lede">A canon of real-time strategy and the formats that split off from it: squad tactics, real-time campaigns, Warcraft III and StarCraft custom games, mods, mobile, browser, and Roblox. A title is here because it defined a format, still has a large audience, or is the game people mean when they name that corner.</p>
 
     <ul class="stats">
@@ -402,7 +402,7 @@
       <h2>Catalog</h2>
       <p class="hint">A combined genre names both parts, such as city builder / real-time battle. Session is the clock: a match ends, a saved campaign is only yours, and a shared world keeps going while you are away. Where to play is the client or host. Metrics are a public figure when one exists, and N/A when it does not. Popularity is a 5-star judgment of how widely a game is played and known. A large audience on Roblox, mobile, or a browser counts the same as on PC. Five stars is a household name or a mass audience. One star is a small audience. Differentiation names a mechanic that is not a traditional base-and-harvest match. No differentiation means the match is still a traditional base-and-harvest game, or a port that keeps that match. Needs investigation means a departure is likely and has not been named yet.</p>
       <p class="group-label">Filter</p>
-      <p class="hint">All shows every title when nothing else in that group is checked. Turn All off to hide them. Checking All turns the other boxes on. A title stays if it matches any other checked box.</p>
+      <p class="hint">All checks every box in that group. Turn All off to hide the list. A title stays if it matches any other checked box.</p>
       <div class="controls">
         <div class="search-row">
           <label class="field">
@@ -3916,6 +3916,7 @@
       if (!any) {
         if (container.dataset.explicitNone) return;
         all.checked = true;
+        for (const input of rest) input.checked = true;
         return;
       }
       delete container.dataset.explicitNone;
@@ -3951,6 +3952,7 @@
       function restore(container, key) {
         if (!params.has(key)) {
           container.querySelector("input[data-all]").checked = true;
+          for (const input of optionInputs(container)) input.checked = true;
           return;
         }
         const raw = params.get(key);
@@ -3980,8 +3982,9 @@
     function writeParams() {
       const params = new URLSearchParams();
       function writeGroup(key, container) {
-        const chosen = checkedValues(container);
-        if (chosen.length) params.set(key, chosen.join(","));
+        const rest = optionInputs(container);
+        const chosen = rest.filter((input) => input.checked);
+        if (chosen.length && chosen.length < rest.length) params.set(key, chosen.map((input) => input.value).join(","));
         else if (!container.querySelector("input[data-all]").checked) params.set(key, "none");
       }
       writeGroup("genre", genre);
