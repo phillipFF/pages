@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RPG Early Readout — 24 Sep 2026</title>
+  <style>
+    :root {
+      --bg: #1c1b19;
+      --ink: #ecebe6;
+      --muted: #a8a59d;
+      --faint: #7c7972;
+      --line: #2e2d29;
+      --card: #23221f;
+      --warn: #f5b97a;
+      --warn-bg: #2a2014;
+      --danger: #e07a6a;
+      --danger-bg: #2a1816;
+      --info: #7cb0ff;
+      --ok: #6dbe7a;
+      --table-head: #23221f;
+      --hi: #2a1816;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.45 "Segoe UI", system-ui, sans-serif;
+    }
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 32px 56px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      margin: 0 0 8px;
+    }
+    h2 {
+      font-size: 18px;
+      font-weight: 650;
+      margin: 28px 0 12px;
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 650;
+      margin: 0 0 4px;
+    }
+    p { margin: 0; }
+    .lede { color: var(--muted); max-width: 46em; }
+    .takeaways {
+      margin: 20px 0 8px;
+      padding: 16px 18px 8px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+    .takeaways h2 { margin: 0 0 12px; }
+    .takeaways ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: take;
+    }
+    .takeaways li {
+      counter-increment: take;
+      display: grid;
+      grid-template-columns: 1.6em 1fr;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+    .takeaways li:first-of-type { border-top: 0; }
+    .takeaways li::before {
+      content: counter(take);
+      color: var(--faint);
+      font-weight: 650;
+      font-size: 13px;
+      padding-top: 1px;
+    }
+    .takeaways p { color: var(--muted); font-size: 14px; }
+    .banner {
+      margin: 20px 0 24px;
+      padding: 14px 16px;
+      background: var(--danger-bg);
+      border-left: 3px solid var(--danger);
+    }
+    .banner strong { color: var(--danger); display: block; margin-bottom: 4px; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 14px 14px 12px;
+    }
+    .stat .v {
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+    }
+    .stat .l { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .stat.ok .v { color: var(--ok); }
+    .stat.warn .v { color: var(--warn); }
+    .stat.info .v { color: var(--info); }
+    .stat.danger .v { color: var(--danger); }
+    .chart {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 12px 12px 8px;
+      margin: 12px 0 8px;
+    }
+    .chart svg { width: 100%; height: auto; display: block; }
+    .caption { font-size: 12px; color: var(--faint); margin: 8px 0 0; max-width: 52em; }
+    .body { color: var(--muted); max-width: 52em; margin-bottom: 10px; }
+    hr {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 28px 0;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .scroll { overflow-x: auto; margin: 12px 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--muted);
+      background: var(--table-head);
+    }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr:last-child td { border-bottom: 0; }
+    tr.hi td { background: var(--hi); }
+    .note {
+      margin: 16px 0 0;
+      padding: 14px 16px;
+      background: var(--card);
+      border-left: 3px solid var(--warn);
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .note strong { color: var(--warn); display: block; margin-bottom: 4px; }
+    footer {
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--faint);
+      max-width: 52em;
+    }
+    a { color: var(--info); }
+    @media (max-width: 800px) {
+      .stats, .split { grid-template-columns: 1fr; }
+      .page { padding: 24px 16px 40px; }
+    }
+    @media print {
+      .stat, .chart, table { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>RPG Early Readout</h1>
+    <p class="lede">Early live metrics for Test D (rpg). Control vs RPG live region analysis plus the A/D KPI page. Fresh random prod assignments, app 2.9+, PDT start 11 Sep, all countries. Data through 24 Sep 16:00 UTC. RPG n=182 assigned vs Control 530. This is a four-arm split, not a dedicated 50/50.</p>
+
+    <div class="banner">
+      <strong>RPG is the first prototype that is losing D1.</strong>
+      Barracks and Relay left KPI retention around 21%. RPG does not. Latest mature calendar D1 is 8.0% (2/25 on Sep 22) vs Control 19.0% that day. Pooled rolling D1 is 8.0% (9/113) vs Control 14.6% and Relay 17.8%. Sample is still small, but every mature day is below Control.
+    </div>
+
+    <div class="stats">
+      <div class="stat danger"><div class="v">8%</div><div class="l">Latest mature D1 · 2/25 vs Control 19%</div></div>
+      <div class="stat info"><div class="v">86% vs 53%</div><div class="l">Match 1 reach of assigned</div></div>
+      <div class="stat warn"><div class="v">75% vs 97%</div><div class="l">Attempt 1 completion</div></div>
+      <div class="stat"><div class="v">6.6 vs 11.9 min</div><div class="l">D0 combat median</div></div>
+    </div>
+
+    <div class="takeaways">
+      <h2>Takeaways</h2>
+      <ol>
+        <li>
+          <div>
+            <h3>Retention is down, not a wash</h3>
+            <p>Concurrent calendar D1 from Sep 18–22 is 8.5% (10/118) vs Control 18.4% (83/450). Rolling 24–48h D1 is 8.0% vs Relay 17.8% and Barracks 13.1%. Calendar D3 is 8.6% (5/58) vs Control 12.4% and Relay 12.5%. Unlike the last two prototypes, coming back is the problem.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>More people start a fight. They play less of one.</h3>
+            <p>First-six-hour combat start is 85.6% vs 53.2% Control (p&lt;.001). Attempts per starter are 3.69 vs 8.71. Combat minutes per assigned are 7.2 vs 12.3. Median D0 playtime is 6.6 vs 11.9 minutes. RPG front-loads entry, then the session is short.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Match 1 always wins. A quarter never finish it.</h3>
+            <p>Chronological attempt 1: RPG win 100% vs 88.7%, completion 74.5% vs 97.2%, duration 93s vs 106s (all p&lt;.001). Attempts 2–3 stay near-certain wins, then attempt 4 win rate meets Control (85.7% vs 86.3%) while fights run longer (186s vs 155s).</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>The funnel inverts after Match 3</h3>
+            <p>RPG is ahead at Match 1 (86% vs 54%) and still ahead at Match 3 (43% vs 38%). By Match 5 it is behind (20.8% vs 28.1% Control, 29.0% Relay). Match 5 win looks like Relay (59.5% vs 57.9% vs Control 39.2%), but fewer people get there, and Match 6–7 wins fall off.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Playing more matches does not buy D1</h3>
+            <p>On Control and Relay, D1 climbs with D0 depth: 16–20% after 1–3 matches, 28–40% after 4–7, ~50–57% after 8+. RPG stays flat: 5.9% after 1–3, 9.5% after 4–7, 33% after 8+ (3/9). Depth is not converting into return the way it does on the other arms.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Tutorial telemetry is silent</h3>
+            <p>RPG fires zero tutorial_started / tutorial_completed events. Control is 99.6% start / 76.9% complete. Players still reach Match 1 at 86%, so FTUE is a different path or uninstrumented — not a 0% tutorial completion in the usual sense.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <hr />
+
+    <h2>Calendar D1 — Control vs RPG</h2>
+    <p class="body">Live region dashboard, default vs rpg, mature return days only. Latest headline card is the Sep 22 cohort: 8.0% (2/25). Sep 21 is the only day with a printed p-value on D1 (&lt;.001). Sep 23–24 are not mature.</p>
+    <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="557.970742pt" height="224.062246pt" viewBox="0 0 557.970742 224.062246" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T15:01:01.407657</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 224.062246 
+L 557.970742 224.062246 
+L 557.970742 0 
+L 0 0 
+z
+" style="fill: #1c1b19"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 37.410742 201.24 
+L 550.770742 201.24 
+L 550.770742 7.2 
+L 37.410742 7.2 
+z
+" style="fill: #1c1b19"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m52cedc44f2" d="M 0 0 
+L 0 3.5 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m52cedc44f2" x="60.745288" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="60.745288" y="214.792246" transform="rotate(-0 60.745288 214.792246)">Sep 18</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m52cedc44f2" x="177.418015" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="177.418015" y="214.792246" transform="rotate(-0 177.418015 214.792246)">Sep 19</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m52cedc44f2" x="294.090742" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="294.090742" y="214.792246" transform="rotate(-0 294.090742 214.792246)">Sep 20</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m52cedc44f2" x="410.763469" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="410.763469" y="214.792246" transform="rotate(-0 410.763469 214.792246)">Sep 21</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m52cedc44f2" x="527.436197" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="527.436197" y="214.792246" transform="rotate(-0 527.436197 214.792246)">Sep 22</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_6">
+      <path d="M 37.410742 201.24 
+L 550.770742 201.24 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_7">
+      <defs>
+       <path id="mf195ca5e31" d="M 0 0 
+L -3.5 0 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="201.24" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="204.516123" transform="rotate(-0 30.410742 204.516123)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_8">
+      <path d="M 37.410742 166.59 
+L 550.770742 166.59 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_9">
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="166.59" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="169.866123" transform="rotate(-0 30.410742 169.866123)">5</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_10">
+      <path d="M 37.410742 131.94 
+L 550.770742 131.94 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_11">
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="131.94" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="135.216123" transform="rotate(-0 30.410742 135.216123)">10</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_12">
+      <path d="M 37.410742 97.29 
+L 550.770742 97.29 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_13">
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="97.29" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="100.566123" transform="rotate(-0 30.410742 100.566123)">15</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_14">
+      <path d="M 37.410742 62.64 
+L 550.770742 62.64 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_15">
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="62.64" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="65.916123" transform="rotate(-0 30.410742 65.916123)">20</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_16">
+      <path d="M 37.410742 27.99 
+L 550.770742 27.99 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_17">
+      <g>
+       <use xlink:href="#mf195ca5e31" x="37.410742" y="27.99" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.410742" y="31.266123" transform="rotate(-0 30.410742 31.266123)">25</text>
+     </g>
+    </g>
+    <g id="text_12">
+     <text style="font-size: 10px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="14.603125" y="104.22" transform="rotate(-90 14.603125 104.22)">Calendar D1 (%)</text>
+    </g>
+   </g>
+   <g id="line2d_18">
+    <path d="M 60.745288 61.254 
+L 177.418015 74.421 
+L 294.090742 98.676 
+L 410.763469 73.035 
+L 527.436197 69.57 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #9aa3d0; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="m25719f8522" d="M 0 2.5 
+C 0.663008 2.5 1.29895 2.236584 1.767767 1.767767 
+C 2.236584 1.29895 2.5 0.663008 2.5 0 
+C 2.5 -0.663008 2.236584 -1.29895 1.767767 -1.767767 
+C 1.29895 -2.236584 0.663008 -2.5 0 -2.5 
+C -0.663008 -2.5 -1.29895 -2.236584 -1.767767 -1.767767 
+C -2.236584 -1.29895 -2.5 -0.663008 -2.5 0 
+C -2.5 0.663008 -2.236584 1.29895 -1.767767 1.767767 
+C -1.29895 2.236584 -0.663008 2.5 0 2.5 
+z
+" style="stroke: #9aa3d0"/>
+    </defs>
+    <g clip-path="url(#p2f7f91eb98)">
+     <use xlink:href="#m25719f8522" x="60.745288" y="61.254" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#m25719f8522" x="177.418015" y="74.421" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#m25719f8522" x="294.090742" y="98.676" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#m25719f8522" x="410.763469" y="73.035" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#m25719f8522" x="527.436197" y="69.57" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+    </g>
+   </g>
+   <g id="line2d_19">
+    <path d="M 60.745288 140.949 
+L 177.418015 102.141 
+L 294.090742 102.141 
+L 410.763469 181.143 
+L 527.436197 145.8 
+" clip-path="url(#p2f7f91eb98)" style="fill: none; stroke: #e07a6a; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="mb25759f6bd" d="M -2.5 2.5 
+L 2.5 2.5 
+L 2.5 -2.5 
+L -2.5 -2.5 
+z
+" style="stroke: #e07a6a; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#p2f7f91eb98)">
+     <use xlink:href="#mb25759f6bd" x="60.745288" y="140.949" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#mb25759f6bd" x="177.418015" y="102.141" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#mb25759f6bd" x="294.090742" y="102.141" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#mb25759f6bd" x="410.763469" y="181.143" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#mb25759f6bd" x="527.436197" y="145.8" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 37.410742 201.24 
+L 37.410742 7.2 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 37.410742 201.24 
+L 550.770742 201.24 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_20">
+     <path d="M 487.898711 18.812812 
+L 496.898711 18.812812 
+L 505.898711 18.812812 
+" style="fill: none; stroke: #9aa3d0; stroke-width: 2; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m25719f8522" x="496.898711" y="18.812812" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     </g>
+    </g>
+    <g id="text_13">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="513.098711" y="21.962812" transform="rotate(-0 513.098711 21.962812)">Control</text>
+    </g>
+    <g id="line2d_21">
+     <path d="M 487.898711 31.869668 
+L 496.898711 31.869668 
+L 505.898711 31.869668 
+" style="fill: none; stroke: #e07a6a; stroke-width: 2; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#mb25759f6bd" x="496.898711" y="31.869668" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_14">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="513.098711" y="35.019668" transform="rotate(-0 513.098711 35.019668)">RPG</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p2f7f91eb98">
+   <rect x="37.410742" y="7.2" width="513.36" height="194.04"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+    <p class="caption">Source: Control vs RPG — Live Region Analysis, daily calendar D1. n Control 84 / 109 / 54 / 119 / 84; n RPG 23 / 21 / 14 / 35 / 25.</p>
+    <div class="scroll"><table><thead><tr><th>Window</th><th>Control</th><th>RPG</th><th>Relay / Barracks</th></tr></thead><tbody><tr><td>Latest mature calendar D1 (Sep 22)</td><td class="num">19.0% (16/84)</td><td class="num">8.0% (2/25)</td><td class="num">—</td></tr><tr><td>Calendar D1 Sep 18–22</td><td class="num">18.4% (83/450)</td><td class="num">8.5% (10/118)</td><td class="num">—</td></tr><tr><td>Rolling 24–48h D1 (4-arm pooled)</td><td class="num">14.6% (65/444)</td><td class="num">8.0% (9/113)</td><td class="num">Relay 17.8% · Barracks 13.1%</td></tr><tr><td>Calendar D3 (4-arm pooled)</td><td class="num">12.4% (34/274)</td><td class="num">8.6% (5/58)</td><td class="num">Relay 12.5% · Barracks 8.7%</td></tr><tr><td>Daily card week D1 vs Relay, Sep 18–22</td><td class="num">Relay 21.8% (112/513)</td><td class="num">9.1% (11/121)</td><td class="num">current live pair</td></tr></tbody></table></div>
+
+    <hr />
+
+    <h2>D0 funnel — share of assigned</h2>
+    <p class="body">RPG skips the tutorial event stream and dumps people into Match 1. After Match 3 the extra start is gone. Match 5 is the first clear reach loss versus both Control and Relay.</p>
+    <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="563.177188pt" height="227.162412pt" viewBox="0 0 563.177188 227.162412" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T15:01:01.461224</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 227.162412 
+L 563.177188 227.162412 
+L 563.177188 0 
+L 0 0 
+z
+" style="fill: #1c1b19"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 42.617188 204.516123 
+L 555.977188 204.516123 
+L 555.977188 10.476123 
+L 42.617188 10.476123 
+z
+" style="fill: #1c1b19"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m04239f1e8e" d="M 0 0 
+L 0 3.5 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m04239f1e8e" x="65.951733" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="65.951733" y="218.068369" transform="rotate(-0 65.951733 218.068369)">M1</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="132.621863" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="132.621863" y="218.068369" transform="rotate(-0 132.621863 218.068369)">M2</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="199.291993" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="199.291993" y="218.068369" transform="rotate(-0 199.291993 218.068369)">M3</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="265.962123" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="265.962123" y="218.068369" transform="rotate(-0 265.962123 218.068369)">M4</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="332.632252" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="332.632252" y="218.068369" transform="rotate(-0 332.632252 218.068369)">M5</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="399.302382" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="399.302382" y="218.068369" transform="rotate(-0 399.302382 218.068369)">M6</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="465.972512" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="465.972512" y="218.068369" transform="rotate(-0 465.972512 218.068369)">M7</text>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m04239f1e8e" x="532.642642" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="532.642642" y="218.068369" transform="rotate(-0 532.642642 218.068369)">M8</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_9">
+      <path d="M 42.617188 204.516123 
+L 555.977188 204.516123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <defs>
+       <path id="ma2e9a36f6d" d="M 0 0 
+L -3.5 0 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="204.516123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="207.792246" transform="rotate(-0 35.617188 207.792246)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_11">
+      <path d="M 42.617188 165.708123 
+L 555.977188 165.708123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="165.708123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="168.984246" transform="rotate(-0 35.617188 168.984246)">20</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_13">
+      <path d="M 42.617188 126.900123 
+L 555.977188 126.900123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="126.900123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="130.176246" transform="rotate(-0 35.617188 130.176246)">40</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_15">
+      <path d="M 42.617188 88.092123 
+L 555.977188 88.092123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="88.092123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="91.368246" transform="rotate(-0 35.617188 91.368246)">60</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_17">
+      <path d="M 42.617188 49.284123 
+L 555.977188 49.284123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="49.284123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="52.560246" transform="rotate(-0 35.617188 52.560246)">80</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_19">
+      <path d="M 42.617188 10.476123 
+L 555.977188 10.476123 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#ma2e9a36f6d" x="42.617188" y="10.476123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.617188" y="13.752246" transform="rotate(-0 35.617188 13.752246)">100</text>
+     </g>
+    </g>
+    <g id="text_15">
+     <text style="font-size: 10px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="14.709375" y="107.496123" transform="rotate(-90 14.709375 107.496123)">Share of assigned (%)</text>
+    </g>
+   </g>
+   <g id="line2d_21">
+    <path d="M 65.951733 100.510683 
+L 132.621863 119.720643 
+L 199.291993 130.392843 
+L 265.962123 141.841203 
+L 332.632252 149.990883 
+L 399.302382 158.140563 
+L 465.972512 164.931963 
+L 532.642642 171.529323 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #9aa3d0; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="mefcb3f15b9" d="M 0 2.5 
+C 0.663008 2.5 1.29895 2.236584 1.767767 1.767767 
+C 2.236584 1.29895 2.5 0.663008 2.5 0 
+C 2.5 -0.663008 2.236584 -1.29895 1.767767 -1.767767 
+C 1.29895 -2.236584 0.663008 -2.5 0 -2.5 
+C -0.663008 -2.5 -1.29895 -2.236584 -1.767767 -1.767767 
+C -2.236584 -1.29895 -2.5 -0.663008 -2.5 0 
+C -2.5 0.663008 -2.236584 1.29895 -1.767767 1.767767 
+C -1.29895 2.236584 -0.663008 2.5 0 2.5 
+z
+" style="stroke: #9aa3d0"/>
+    </defs>
+    <g clip-path="url(#pa54be27aa8)">
+     <use xlink:href="#mefcb3f15b9" x="65.951733" y="100.510683" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="132.621863" y="119.720643" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="199.291993" y="130.392843" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="265.962123" y="141.841203" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="332.632252" y="149.990883" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="399.302382" y="158.140563" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="465.972512" y="164.931963" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     <use xlink:href="#mefcb3f15b9" x="532.642642" y="171.529323" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <path d="M 65.951733 93.719283 
+L 132.621863 114.869643 
+L 199.291993 126.512043 
+L 265.962123 137.766363 
+L 332.632252 148.244523 
+L 399.302382 157.170363 
+L 465.972512 162.991563 
+L 532.642642 167.066403 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #6dbe7a; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="m935d88ec64" d="M -2.5 2.5 
+L 2.5 2.5 
+L 2.5 -2.5 
+L -2.5 -2.5 
+z
+" style="stroke: #6dbe7a; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#pa54be27aa8)">
+     <use xlink:href="#m935d88ec64" x="65.951733" y="93.719283" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="132.621863" y="114.869643" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="199.291993" y="126.512043" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="265.962123" y="137.766363" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="332.632252" y="148.244523" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="399.302382" y="157.170363" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="465.972512" y="162.991563" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     <use xlink:href="#m935d88ec64" x="532.642642" y="167.066403" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+    </g>
+   </g>
+   <g id="line2d_23">
+    <path d="M 65.951733 37.641723 
+L 132.621863 91.196763 
+L 199.291993 120.496803 
+L 265.962123 144.557763 
+L 332.632252 164.155803 
+L 399.302382 174.051843 
+L 465.972512 177.350523 
+L 532.642642 184.918083 
+" clip-path="url(#pa54be27aa8)" style="fill: none; stroke: #e07a6a; stroke-width: 2; stroke-linecap: square"/>
+    <defs>
+     <path id="m64684b19ec" d="M 0 3.535534 
+L 3.535534 0 
+L 0 -3.535534 
+L -3.535534 0 
+z
+" style="stroke: #e07a6a; stroke-linejoin: miter"/>
+    </defs>
+    <g clip-path="url(#pa54be27aa8)">
+     <use xlink:href="#m64684b19ec" x="65.951733" y="37.641723" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="132.621863" y="91.196763" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="199.291993" y="120.496803" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="265.962123" y="144.557763" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="332.632252" y="164.155803" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="399.302382" y="174.051843" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="465.972512" y="177.350523" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     <use xlink:href="#m64684b19ec" x="532.642642" y="184.918083" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 42.617188 204.516123 
+L 42.617188 10.476123 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 42.617188 204.516123 
+L 555.977188 204.516123 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="legend_1">
+    <g id="line2d_24">
+     <path d="M 475.822344 22.088936 
+L 484.822344 22.088936 
+L 493.822344 22.088936 
+" style="fill: none; stroke: #9aa3d0; stroke-width: 2; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#mefcb3f15b9" x="484.822344" y="22.088936" style="fill: #9aa3d0; stroke: #9aa3d0"/>
+     </g>
+    </g>
+    <g id="text_16">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="501.022344" y="25.238936" transform="rotate(-0 501.022344 25.238936)">Control</text>
+    </g>
+    <g id="line2d_25">
+     <path d="M 475.822344 35.145791 
+L 484.822344 35.145791 
+L 493.822344 35.145791 
+" style="fill: none; stroke: #6dbe7a; stroke-width: 2; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m935d88ec64" x="484.822344" y="35.145791" style="fill: #6dbe7a; stroke: #6dbe7a; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_17">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="501.022344" y="38.295791" transform="rotate(-0 501.022344 38.295791)">Relay Tower</text>
+    </g>
+    <g id="line2d_26">
+     <path d="M 475.822344 48.426416 
+L 484.822344 48.426416 
+L 493.822344 48.426416 
+" style="fill: none; stroke: #e07a6a; stroke-width: 2; stroke-linecap: square"/>
+     <g>
+      <use xlink:href="#m64684b19ec" x="484.822344" y="48.426416" style="fill: #e07a6a; stroke: #e07a6a; stroke-linejoin: miter"/>
+     </g>
+    </g>
+    <g id="text_18">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="501.022344" y="51.576416" transform="rotate(-0 501.022344 51.576416)">RPG</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa54be27aa8">
+   <rect x="42.617188" y="10.476123" width="513.36" height="194.04"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+    <p class="caption">Reach of assigned players, D0 formal matches. RPG assigned pool on this 4-arm page is 178; Control 524; Relay 828. Tutorial start/complete for RPG is 0/0 and omitted from the chart.</p>
+    <div class="scroll"><table><thead><tr><th>Stage</th><th>Control reach / win</th><th>Relay reach / win</th><th>RPG reach / win</th></tr></thead><tbody><tr><td>Tutorial start</td><td class="num">99.6%</td><td class="num">98.8%</td><td class="num">0% (no events)</td></tr><tr><td>Tutorial complete</td><td class="num">76.9%</td><td class="num">65.9%</td><td class="num">0% (no events)</td></tr><tr><td>Match 1</td><td class="num">53.6% / 88.6%</td><td class="num">57.1% / 94.5%</td><td class="num">86.0% / 100%</td></tr><tr><td>Match 3</td><td class="num">38.2% / 85.7%</td><td class="num">40.2% / 93.3%</td><td class="num">43.3% / 98.6%</td></tr><tr class="hi"><td>Match 5</td><td class="num">28.1% / 39.2%</td><td class="num">29.0% / 57.9%</td><td class="num">20.8% / 59.5%</td></tr><tr><td>Match 8</td><td class="num">17.0% / 89.9%</td><td class="num">19.3% / 95.6%</td><td class="num">10.1% / 94.4%</td></tr></tbody></table></div>
+
+    <h2>First four chronological attempts</h2>
+    <p class="body">Live Control vs RPG, first six hours after assignment. Completion is the D0 friction; win rate is the D0 gift.</p>
+    <div class="split">
+      <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="563.017813pt" height="218.342289pt" viewBox="0 0 563.017813 218.342289" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T15:01:01.527308</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 218.342289 
+L 563.017813 218.342289 
+L 563.017813 0 
+L 0 0 
+z
+" style="fill: #1c1b19"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 42.457813 195.696 
+L 555.817812 195.696 
+L 555.817812 7.2 
+L 42.457813 7.2 
+z
+" style="fill: #1c1b19"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m3b27b2e1e5" d="M 0 0 
+L 0 3.5 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m3b27b2e1e5" x="110.955994" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="110.955994" y="209.248246" transform="rotate(-0 110.955994 209.248246)">1</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m3b27b2e1e5" x="236.41054" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="236.41054" y="209.248246" transform="rotate(-0 236.41054 209.248246)">2</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m3b27b2e1e5" x="361.865085" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="361.865085" y="209.248246" transform="rotate(-0 361.865085 209.248246)">3</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m3b27b2e1e5" x="487.319631" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="487.319631" y="209.248246" transform="rotate(-0 487.319631 209.248246)">4</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <path d="M 42.457813 195.696 
+L 555.817812 195.696 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <defs>
+       <path id="ma933bdbda2" d="M 0 0 
+L -3.5 0 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="198.972123" transform="rotate(-0 35.457813 198.972123)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <path d="M 42.457813 161.424 
+L 555.817812 161.424 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="161.424" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="164.700123" transform="rotate(-0 35.457813 164.700123)">20</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9">
+      <path d="M 42.457813 127.152 
+L 555.817812 127.152 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="127.152" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="130.428123" transform="rotate(-0 35.457813 130.428123)">40</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_11">
+      <path d="M 42.457813 92.88 
+L 555.817812 92.88 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="92.88" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="96.156123" transform="rotate(-0 35.457813 96.156123)">60</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_13">
+      <path d="M 42.457813 58.608 
+L 555.817812 58.608 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="58.608" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="61.884123" transform="rotate(-0 35.457813 61.884123)">80</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_15">
+      <path d="M 42.457813 24.336 
+L 555.817812 24.336 
+" clip-path="url(#pf8874eee20)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#ma933bdbda2" x="42.457813" y="24.336" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.457813" y="27.612123" transform="rotate(-0 35.457813 27.612123)">100</text>
+     </g>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 10px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="14.603125" y="101.448" transform="rotate(-90 14.603125 101.448)">Completion (%)</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 65.792358 195.696 
+L 110.955994 195.696 
+L 110.955994 29.13408 
+L 65.792358 29.13408 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 191.246903 195.696 
+L 236.41054 195.696 
+L 236.41054 26.56368 
+L 191.246903 26.56368 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 316.701449 195.696 
+L 361.865085 195.696 
+L 361.865085 27.7632 
+L 316.701449 27.7632 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 442.155994 195.696 
+L 487.319631 195.696 
+L 487.319631 28.44864 
+L 442.155994 28.44864 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 110.955994 195.696 
+L 156.119631 195.696 
+L 156.119631 68.0328 
+L 110.955994 68.0328 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 236.41054 195.696 
+L 281.574176 195.696 
+L 281.574176 38.0448 
+L 236.41054 38.0448 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 361.865085 195.696 
+L 407.028722 195.696 
+L 407.028722 37.70208 
+L 361.865085 37.70208 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 487.319631 195.696 
+L 532.483267 195.696 
+L 532.483267 37.188 
+L 487.319631 37.188 
+z
+" clip-path="url(#pf8874eee20)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 42.457813 195.696 
+L 42.457813 7.2 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 42.457813 195.696 
+L 555.817812 195.696 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="88.374176" y="27.660935" transform="rotate(-0 88.374176 27.660935)">97.2</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="213.828722" y="25.090535" transform="rotate(-0 213.828722 25.090535)">98.7</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="339.283267" y="26.290055" transform="rotate(-0 339.283267 26.290055)">98</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="464.737812" y="26.975495" transform="rotate(-0 464.737812 26.975495)">97.6</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="133.537813" y="66.559655" transform="rotate(-0 133.537813 66.559655)">74.5</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="258.992358" y="36.571655" transform="rotate(-0 258.992358 36.571655)">92</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="384.446903" y="36.228935" transform="rotate(-0 384.446903 36.228935)">92.2</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="509.901449" y="35.714855" transform="rotate(-0 509.901449 35.714855)">92.5</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_13">
+     <path d="M 50.557813 172.645102 
+L 68.557813 172.645102 
+L 68.557813 166.345102 
+L 50.557813 166.345102 
+z
+" style="fill: #9aa3d0"/>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="75.757812" y="172.645102" transform="rotate(-0 75.757812 172.645102)">Control</text>
+    </g>
+    <g id="patch_14">
+     <path d="M 50.557813 185.701957 
+L 68.557813 185.701957 
+L 68.557813 179.401957 
+L 50.557813 179.401957 
+z
+" style="fill: #e07a6a"/>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="75.757812" y="185.701957" transform="rotate(-0 75.757812 185.701957)">RPG</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pf8874eee20">
+   <rect x="42.457813" y="7.2" width="513.36" height="188.496"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+      <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="563.070938pt" height="218.342289pt" viewBox="0 0 563.070938 218.342289" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T15:01:01.584633</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 218.342289 
+L 563.070938 218.342289 
+L 563.070938 0 
+L 0 0 
+z
+" style="fill: #1c1b19"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 42.510938 195.696 
+L 555.870937 195.696 
+L 555.870937 7.2 
+L 42.510938 7.2 
+z
+" style="fill: #1c1b19"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m3c77184db6" d="M 0 0 
+L 0 3.5 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m3c77184db6" x="111.009119" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="111.009119" y="209.248246" transform="rotate(-0 111.009119 209.248246)">1</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m3c77184db6" x="236.463665" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="236.463665" y="209.248246" transform="rotate(-0 236.463665 209.248246)">2</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m3c77184db6" x="361.91821" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="361.91821" y="209.248246" transform="rotate(-0 361.91821 209.248246)">3</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m3c77184db6" x="487.372756" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="487.372756" y="209.248246" transform="rotate(-0 487.372756 209.248246)">4</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <path d="M 42.510938 195.696 
+L 555.870937 195.696 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <defs>
+       <path id="m0234f271b7" d="M 0 0 
+L -3.5 0 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="195.696" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="198.972123" transform="rotate(-0 35.510938 198.972123)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <path d="M 42.510938 161.424 
+L 555.870937 161.424 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="161.424" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="164.700123" transform="rotate(-0 35.510938 164.700123)">20</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9">
+      <path d="M 42.510938 127.152 
+L 555.870937 127.152 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="127.152" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="130.428123" transform="rotate(-0 35.510938 130.428123)">40</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_11">
+      <path d="M 42.510938 92.88 
+L 555.870937 92.88 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="92.88" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="96.156123" transform="rotate(-0 35.510938 96.156123)">60</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_13">
+      <path d="M 42.510938 58.608 
+L 555.870937 58.608 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="58.608" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="61.884123" transform="rotate(-0 35.510938 61.884123)">80</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_15">
+      <path d="M 42.510938 24.336 
+L 555.870937 24.336 
+" clip-path="url(#p0199639746)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m0234f271b7" x="42.510938" y="24.336" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="35.510938" y="27.612123" transform="rotate(-0 35.510938 27.612123)">100</text>
+     </g>
+    </g>
+    <g id="text_11">
+     <text style="font-size: 10px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="14.603125" y="101.448" transform="rotate(-90 14.603125 101.448)">Win % among completed</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 65.845483 195.696 
+L 111.009119 195.696 
+L 111.009119 43.69968 
+L 65.845483 43.69968 
+z
+" clip-path="url(#p0199639746)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 191.300028 195.696 
+L 236.463665 195.696 
+L 236.463665 37.188 
+L 191.300028 37.188 
+z
+" clip-path="url(#p0199639746)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 316.754574 195.696 
+L 361.91821 195.696 
+L 361.91821 49.35456 
+L 316.754574 49.35456 
+z
+" clip-path="url(#p0199639746)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 442.209119 195.696 
+L 487.372756 195.696 
+L 487.372756 47.81232 
+L 442.209119 47.81232 
+z
+" clip-path="url(#p0199639746)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 111.009119 195.696 
+L 156.172756 195.696 
+L 156.172756 24.336 
+L 111.009119 24.336 
+z
+" clip-path="url(#p0199639746)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 236.463665 195.696 
+L 281.627301 195.696 
+L 281.627301 26.22096 
+L 236.463665 26.22096 
+z
+" clip-path="url(#p0199639746)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 361.91821 195.696 
+L 407.081847 195.696 
+L 407.081847 26.73504 
+L 361.91821 26.73504 
+z
+" clip-path="url(#p0199639746)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 487.372756 195.696 
+L 532.536392 195.696 
+L 532.536392 48.84048 
+L 487.372756 48.84048 
+z
+" clip-path="url(#p0199639746)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 42.510938 195.696 
+L 42.510938 7.2 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 42.510938 195.696 
+L 555.870937 195.696 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="88.427301" y="42.226535" transform="rotate(-0 88.427301 42.226535)">88.7</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="213.881847" y="35.714855" transform="rotate(-0 213.881847 35.714855)">92.5</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="339.336392" y="47.881415" transform="rotate(-0 339.336392 47.881415)">85.4</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="464.790937" y="46.339175" transform="rotate(-0 464.790937 46.339175)">86.3</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="133.590938" y="22.862855" transform="rotate(-0 133.590938 22.862855)">100</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="259.045483" y="24.747815" transform="rotate(-0 259.045483 24.747815)">98.9</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="384.500028" y="25.261895" transform="rotate(-0 384.500028 25.261895)">98.6</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="509.954574" y="47.367335" transform="rotate(-0 509.954574 47.367335)">85.7</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_13">
+     <path d="M 492.998906 21.962813 
+L 510.998906 21.962813 
+L 510.998906 15.662813 
+L 492.998906 15.662813 
+z
+" style="fill: #9aa3d0"/>
+    </g>
+    <g id="text_20">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="518.198906" y="21.962813" transform="rotate(-0 518.198906 21.962813)">Control</text>
+    </g>
+    <g id="patch_14">
+     <path d="M 492.998906 35.019668 
+L 510.998906 35.019668 
+L 510.998906 28.719668 
+L 492.998906 28.719668 
+z
+" style="fill: #e07a6a"/>
+    </g>
+    <g id="text_21">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="518.198906" y="35.019668" transform="rotate(-0 518.198906 35.019668)">RPG</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0199639746">
+   <rect x="42.510938" y="7.2" width="513.36" height="188.496"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+    </div>
+    <p class="caption">Left: completion %. Right: win % among completed attempts. Attempt 1 is the completion hole (74.5% vs 97.2%) and the win gift (100% vs 88.7%).</p>
+    <div class="scroll"><table><thead><tr><th>Attempt</th><th>Control n / complete / win / sec</th><th>RPG n / complete / win / sec</th><th>p complete / win / duration</th></tr></thead><tbody><tr><td>1</td><td class="num">282 · 97.2% · 88.7% · 106s</td><td class="num">149 · 74.5% · 100% · 93s</td><td class="num"><.001 / <.001 / <.001</td></tr><tr><td>2</td><td class="num">231 · 98.7% · 92.5% · 154s</td><td class="num">100 · 92.0% · 98.9% · 116s</td><td class="num">0.018 / 0.002 / <.001</td></tr><tr><td>3</td><td class="num">203 · 98.0% · 85.4% · 153s</td><td class="num">77 · 92.2% · 98.6% · 180s</td><td class="num">0.071 / <.001 / <.001</td></tr><tr><td>4</td><td class="num">164 · 97.6% · 86.3% · 155s</td><td class="num">53 · 92.5% · 85.7% · 186s</td><td class="num">0.185 / 0.926 / <.001</td></tr></tbody></table></div>
+
+    <hr />
+
+    <h2>D1 return by D0 match depth</h2>
+    <p class="body">Same 4-arm live page. RPG players who do 1–7 matches come back like people who played zero matches on the other arms.</p>
+    <div class="chart"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="557.847891pt" height="221.728979pt" viewBox="0 0 557.847891 221.728979" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T15:01:01.657670</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 221.728979 
+L 557.847891 221.728979 
+L 557.847891 0 
+L -0 0 
+z
+" style="fill: #1c1b19"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 37.287891 198.972123 
+L 550.647891 198.972123 
+L 550.647891 10.476123 
+L 37.287891 10.476123 
+z
+" style="fill: #1c1b19"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <defs>
+       <path id="m1cb9068c66" d="M 0 0 
+L 0 3.5 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m1cb9068c66" x="105.786072" y="198.972123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="105.786072" y="212.634936" transform="rotate(-0 105.786072 212.634936)">No match</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use xlink:href="#m1cb9068c66" x="231.240618" y="198.972123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="231.240618" y="212.524369" transform="rotate(-0 231.240618 212.524369)">1-3</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use xlink:href="#m1cb9068c66" x="356.695163" y="198.972123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="356.695163" y="212.524369" transform="rotate(-0 356.695163 212.524369)">4-7</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m1cb9068c66" x="482.149709" y="198.972123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="482.149709" y="212.524369" transform="rotate(-0 482.149709 212.524369)">8+</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_5">
+      <path d="M 37.287891 198.972123 
+L 550.647891 198.972123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <defs>
+       <path id="m0b5fa91402" d="M 0 0 
+L -3.5 0 
+" style="stroke: #a8a59d; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="198.972123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="202.248246" transform="rotate(-0 30.287891 202.248246)">0</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_7">
+      <path d="M 37.287891 172.044123 
+L 550.647891 172.044123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="172.044123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="175.320246" transform="rotate(-0 30.287891 175.320246)">10</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9">
+      <path d="M 37.287891 145.116123 
+L 550.647891 145.116123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="145.116123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="148.392246" transform="rotate(-0 30.287891 148.392246)">20</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_11">
+      <path d="M 37.287891 118.188123 
+L 550.647891 118.188123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="118.188123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="121.464246" transform="rotate(-0 30.287891 121.464246)">30</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_13">
+      <path d="M 37.287891 91.260123 
+L 550.647891 91.260123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="91.260123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="94.536246" transform="rotate(-0 30.287891 94.536246)">40</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_15">
+      <path d="M 37.287891 64.332123 
+L 550.647891 64.332123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="64.332123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="67.608246" transform="rotate(-0 30.287891 67.608246)">50</text>
+     </g>
+    </g>
+    <g id="ytick_7">
+     <g id="line2d_17">
+      <path d="M 37.287891 37.404123 
+L 550.647891 37.404123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="37.404123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="40.680246" transform="rotate(-0 30.287891 40.680246)">60</text>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_19">
+      <path d="M 37.287891 10.476123 
+L 550.647891 10.476123 
+" clip-path="url(#pd97995553a)" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m0b5fa91402" x="37.287891" y="10.476123" style="fill: #a8a59d; stroke: #a8a59d; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: end; fill: #a8a59d" x="30.287891" y="13.752246" transform="rotate(-0 30.287891 13.752246)">70</text>
+     </g>
+    </g>
+    <g id="text_13">
+     <text style="font-size: 10px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="14.480273" y="104.724123" transform="rotate(-90 14.480273 104.724123)">D1 return (%)</text>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 60.622436 198.972123 
+L 90.731527 198.972123 
+L 90.731527 182.007483 
+L 60.622436 182.007483 
+z
+" clip-path="url(#pd97995553a)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 186.076982 198.972123 
+L 216.186072 198.972123 
+L 216.186072 155.079483 
+L 186.076982 155.079483 
+z
+" clip-path="url(#pd97995553a)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 311.531527 198.972123 
+L 341.640618 198.972123 
+L 341.640618 122.496603 
+L 311.531527 122.496603 
+z
+" clip-path="url(#pd97995553a)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 436.986072 198.972123 
+L 467.095163 198.972123 
+L 467.095163 65.947803 
+L 436.986072 65.947803 
+z
+" clip-path="url(#pd97995553a)" style="fill: #9aa3d0"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 90.731527 198.972123 
+L 120.840618 198.972123 
+L 120.840618 184.700283 
+L 90.731527 184.700283 
+z
+" clip-path="url(#pd97995553a)" style="fill: #6dbe7a"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 216.186072 198.972123 
+L 246.295163 198.972123 
+L 246.295163 145.116123 
+L 216.186072 145.116123 
+z
+" clip-path="url(#pd97995553a)" style="fill: #6dbe7a"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 341.640618 198.972123 
+L 371.749709 198.972123 
+L 371.749709 91.798683 
+L 341.640618 91.798683 
+z
+" clip-path="url(#pd97995553a)" style="fill: #6dbe7a"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 467.095163 198.972123 
+L 497.204254 198.972123 
+L 497.204254 45.482523 
+L 467.095163 45.482523 
+z
+" clip-path="url(#pd97995553a)" style="fill: #6dbe7a"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 120.840618 198.972123 
+L 150.949709 198.972123 
+L 150.949709 185.508123 
+L 120.840618 185.508123 
+z
+" clip-path="url(#pd97995553a)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 246.295163 198.972123 
+L 276.404254 198.972123 
+L 276.404254 183.084603 
+L 246.295163 183.084603 
+z
+" clip-path="url(#pd97995553a)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 371.749709 198.972123 
+L 401.8588 198.972123 
+L 401.8588 173.390523 
+L 371.749709 173.390523 
+z
+" clip-path="url(#pd97995553a)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 497.204254 198.972123 
+L 527.313345 198.972123 
+L 527.313345 109.301883 
+L 497.204254 109.301883 
+z
+" clip-path="url(#pd97995553a)" style="fill: #e07a6a"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 37.287891 198.972123 
+L 37.287891 10.476123 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 37.287891 198.972123 
+L 550.647891 198.972123 
+" style="fill: none; stroke: #2e2d29; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="75.676982" y="180.534339" transform="rotate(-0 75.676982 180.534339)">6.3</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="201.131527" y="153.606339" transform="rotate(-0 201.131527 153.606339)">16.3</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="326.586072" y="121.023459" transform="rotate(-0 326.586072 121.023459)">28.4</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="452.040618" y="64.474659" transform="rotate(-0 452.040618 64.474659)">49.4</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="105.786072" y="183.227139" transform="rotate(-0 105.786072 183.227139)">5.3</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="231.240618" y="143.642979" transform="rotate(-0 231.240618 143.642979)">20</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="356.695163" y="90.325539" transform="rotate(-0 356.695163 90.325539)">39.8</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="482.149709" y="44.009379" transform="rotate(-0 482.149709 44.009379)">57</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="135.895163" y="184.034979" transform="rotate(-0 135.895163 184.034979)">5</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="261.349709" y="181.611459" transform="rotate(-0 261.349709 181.611459)">5.9</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="386.804254" y="171.917379" transform="rotate(-0 386.804254 171.917379)">9.5</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 7px; font-family: 'Segoe UI'; text-anchor: middle; fill: #a8a59d" x="512.2588" y="107.828739" transform="rotate(-0 512.2588 107.828739)">33.3</text>
+   </g>
+   <g id="legend_1">
+    <g id="patch_17">
+     <path d="M 45.387891 25.238936 
+L 63.387891 25.238936 
+L 63.387891 18.938936 
+L 45.387891 18.938936 
+z
+" style="fill: #9aa3d0"/>
+    </g>
+    <g id="text_26">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="70.587891" y="25.238936" transform="rotate(-0 70.587891 25.238936)">Control</text>
+    </g>
+    <g id="patch_18">
+     <path d="M 45.387891 38.295791 
+L 63.387891 38.295791 
+L 63.387891 31.995791 
+L 45.387891 31.995791 
+z
+" style="fill: #6dbe7a"/>
+    </g>
+    <g id="text_27">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="70.587891" y="38.295791" transform="rotate(-0 70.587891 38.295791)">Relay Tower</text>
+    </g>
+    <g id="patch_19">
+     <path d="M 45.387891 51.576416 
+L 63.387891 51.576416 
+L 63.387891 45.276416 
+L 45.387891 45.276416 
+z
+" style="fill: #e07a6a"/>
+    </g>
+    <g id="text_28">
+     <text style="font-size: 9px; font-family: 'Segoe UI'; text-anchor: start; fill: #a8a59d" x="70.587891" y="51.576416" transform="rotate(-0 70.587891 51.576416)">RPG</text>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pd97995553a">
+   <rect x="37.287891" y="10.476123" width="513.36" height="188.496"/>
+  </clipPath>
+ </defs>
+</svg>
+</div>
+    <p class="caption">RPG n by depth: no match 20, 1–3 68, 4–7 21, 8+ 9. Control 223 / 98 / 74 / 81. Relay 304 / 160 / 103 / 128.</p>
+
+    <h2>D0 playtime among match starters</h2>
+    <div class="scroll"><table><thead><tr><th>Arm</th><th>n</th><th>Median min</th><th>Mean min</th><th>P90 min</th><th>Share under 10 min</th></tr></thead><tbody><tr><td>Control</td><td class="num">281</td><td class="num">11.9</td><td class="num">25.5</td><td class="num">62.2</td><td class="num">44.1%</td></tr><tr><td>Relay Tower</td><td class="num">473</td><td class="num">10.9</td><td class="num">24.2</td><td class="num">64.5</td><td class="num">45.3%</td></tr><tr><td>Free Placement</td><td class="num">680</td><td class="num">7.7</td><td class="num">15.0</td><td class="num">38.3</td><td class="num">53.6%</td></tr><tr><td>RPG</td><td class="num">153</td><td class="num">6.6</td><td class="num">11.6</td><td class="num">24.2</td><td class="num">52.3%</td></tr></tbody></table></div>
+    <p class="caption">First-six-hour pooled: RPG 7.18 combat min per assigned vs Control 12.27. Attempts per starter 3.69 vs 8.71.</p>
+
+    <hr />
+
+    <h2>A/D KPI page vs historical default</h2>
+    <p class="body">The Relay Tower &amp; RPG AB dashboard A/D page compares rpg to every historical default user, not the concurrent live window. Direction matches the live dashboard — D1 down, win rate up, matches and sessions down — but Control n≈5,500 is not the comparison to use for shipping. D7 n=2 is noise.</p>
+    <div class="scroll"><table><thead><tr><th>Metric</th><th>Default mean</th><th>RPG mean</th><th>Lift</th><th>p</th></tr></thead><tbody><tr><td>D1 retention</td><td class="num">16.6% (n=5,486)</td><td class="num">10.7% (n=150)</td><td class="num">−36%</td><td class="num">0.021</td></tr><tr><td>Win rate</td><td class="num">77.8%</td><td class="num">92.6%</td><td class="num">+19%</td><td class="num"><.001</td></tr><tr><td>Matches / player</td><td class="num">10.85</td><td class="num">4.45</td><td class="num">−59%</td><td class="num"><.001</td></tr><tr><td>Sessions / DAU</td><td class="num">4.62</td><td class="num">2.52</td><td class="num">−45%</td><td class="num"><.001</td></tr><tr><td>Session length (min)</td><td class="num">13.4</td><td class="num">9.4</td><td class="num">−30%</td><td class="num">0.010</td></tr><tr><td>Card upgrades / player</td><td class="num">5.24</td><td class="num">0.46</td><td class="num">−91%</td><td class="num"><.001</td></tr><tr><td>Surrender rate</td><td class="num">1.84%</td><td class="num">0.58%</td><td class="num">−68%</td><td class="num"><.001</td></tr></tbody></table></div>
+
+    <div class="note">
+      <strong>How to read the sample</strong>
+      RPG volume starts 17 Sep. Assignment share versus default is 25.6% because Barracks and Relay are still in the four-arm split; SRM on the two-arm dashboard is expected to look off. Zero delivery fallbacks. Sep 23–24 RPG share jumps to 76% then 100% as the other arms drop. Treat this as an early directional readout, not a certified test.
+    </div>
+
+    <footer>
+      Sources: <a href="https://dbc-50293d66-4678.cloud.databricks.com/dashboardsv3/01f1b5e6686f14c093b4d0d8f07b0bb0/published?o=7474658318672942">Control vs RPG — Live Region Analysis</a>
+      and <a href="https://dbc-50293d66-4678.cloud.databricks.com/dashboardsv3/01f1b222fa1a1a9cb3edc93655b6ae25/published/pages/f1606c97?o=7474658318672942">A/D: RPG</a> on Harbor Rush — Relay Tower &amp; RPG AB Testing.
+      Concurrent Relay vs RPG week D1 from the Sep 23 daily card (map_event vs rpg, since Sep 18). Snapshot 24 Sep 16:00 UTC.
+    </footer>
+  </div>
+</body>
+</html>
