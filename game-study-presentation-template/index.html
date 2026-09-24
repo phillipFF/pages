@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Study Presentation</title>
+<style>
+  :root { --bg:#fdfcfa; --fg:#1f2328; --muted:#59636e; --line:#d1d9e0; --code:#f3f1ec; --link:#0b5fd1; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#15171a; --fg:#e6e6e3; --muted:#9aa0a6; --line:#33373d; --code:#22252a; --link:#6ea8fe; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font:17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+  h1, h2, h3, h4 { line-height:1.25; margin:2em 0 .6em; }
+  h1 { font-size:2.1rem; margin-top:0; }
+  h2 { font-size:1.5rem; padding-bottom:.3em; border-bottom:1px solid var(--line); }
+  a { color:var(--link); }
+  img, video { max-width:100%; height:auto; border-radius:6px; }
+  code { font:.88em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:var(--code);
+          padding:.15em .35em; border-radius:4px; }
+  pre { background:var(--code); padding:1rem; border-radius:8px; overflow-x:auto; }
+  pre code { background:none; padding:0; }
+  blockquote { margin:1.2em 0; padding:.2em 1em; border-left:4px solid var(--line); color:var(--muted); }
+  table { border-collapse:collapse; display:block; overflow-x:auto; margin:1.2em 0; }
+  th, td { border:1px solid var(--line); padding:.45em .8em; text-align:left; }
+  th { background:var(--code); }
+  hr { border:0; border-top:1px solid var(--line); margin:2.5em 0; }
+  #fallback { white-space:pre-wrap; font:15px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+</style>
+</head>
+<body>
+<main id="content"><pre id="fallback"></pre></main>
+<script>window.__MD__ = "# Game Study Presentation\n\nTurn this into an HTML or PDF presentation. Each heading is a section. Follow the instruction under it. Leave something out if you do not know it. Do not guess a cost, a rank, a timer, or a multiplier. Skip an optional section if you have nothing for it.\n\nThis is a study of one whole game, not one mechanic. The reference deck is `presentations/warcraft-3.html`. Open on the game, then a statistics slide for release, audience, and why it mattered. Say how it differs from a traditional RTS, distill that into systems, explain each system, then say what we would apply and which playable tests are worth running.\n\nInclude any pictures or video named below. One screenshot should show the system, not decorate the slide.\n\n## The game\n\nOpen on the game. Name it, then say what a match is in one or two sentences: what the player has, and what they are trying to do. Do not start with lore or a history of the studio.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Game\n- What a match contains\n- What the player is trying to do\n- A frame that shows a match in progress\n\n## Statistics\n\nPut this second, before the loop. Name the release, then the audience numbers you can source: sales, shipments, installs, a player count, a critic score. Say which count is sold and which is only shipped. If a later version or a remaster exists, give its date and how it performed. Close with the detail that explains why the game lasted. If a player total or an install total was never published, say that. Do not invent one.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Release date, and the date of an expansion if the study includes one\n- Copies sold, and the window that number covers\n- Copies shipped, labeled as a shipment\n- Installs or a player count, only if a source published it\n- Critic score, and an award if one was given\n- Who played, and where the matches ran\n- Why the game lasted\n- A later version or remaster: date, score, and what happened at launch\n\n## Core gameplay loop\n\nWalk one match in order. Each step is something the player actually does, and what it costs them in attention or resources. End on how the match is won. Keep this to the loop. Save the rule details for the system sections.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- How resources enter the match\n- How that income is spent\n- What the player does on the map\n- What they have to do at the same time\n- How the match ends\n\n## How it differentiates from a traditional RTS\n\nSplit the game in two. First, the traits it shares with a traditional RTS, so the baseline is explicit. Then the places it behaves differently. Use the author's wording for both lists. Do not promote a shared trait into a differentiation, and do not drop a difference because it looks ordinary.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Core traits shared with a traditional RTS\n- Differentiations\n- A one-line note on what each differentiation changes in the match\n\n## Key systems\n\nDistill the differentiations into named systems. One system per line, with a short descriptor of what it does in this game. These names are the detail sections that follow. Keep the same names and the same order there. If a differentiation is not its own system, say which system it belongs to.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- System name\n- What it does, in one sentence\n- Which differentiation it comes from\n\n## Each system\n\nRepeat this section once per system, in the same order as the list above. Say what the rule does in this game, then how the player feels it. Use two or three parts, not a full rules dump. A screenshot belongs here when it shows the rule. A footnote is for a caveat or a number you actually know.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- System name\n- What the rule does\n- How the player feels it\n- The parts of the rule worth separating\n- Screenshot of the rule in action\n- A caveat, if one is known\n\n## What players treat as the point\n\nOptional. Only include this if it comes from players, a forum, or a stated source. Summarize what they treat as the center of the match. Do not invent a consensus.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- What players treat as the advantage\n- What they say other RTS games do not have\n- What they argue over\n\n## What we would apply\n\nJudge the systems for our own RTS. For each one, say whether it is worth iterating, interesting but not enough on its own, or not a priority. Give the reason in the same line. A system that needs a partner should name that partner. Do not rank a system you have not decided on.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- System\n- Worth iterating, needs a partner, or not a priority\n- Why\n- What we would keep, and what we would change\n\n## Playable tests\n\nClose on tests for the systems worth iterating. Group them by the decision the test isolates, such as how the player moves, how a skill fires, or when a choice is locked. Each line is one version you could play, not a feature name. Say which comparison is the valuable one, and leave the other systems out of that test.\n\nThis list is a format to generate ideas on how to present. It does not need to be followed.\n\n- Which system the tests are for\n- The decision each group isolates\n- Two or more playable versions of that decision\n- What the comparison is meant to answer\n- What to hold constant so the test stays about that decision\n";
+document.getElementById("fallback").textContent = window.__MD__;</script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+<script>
+  if (window.marked) {
+    document.getElementById("content").innerHTML = marked.parse(window.__MD__, { gfm: true });
+  }
+</script>
+</body>
+</html>
