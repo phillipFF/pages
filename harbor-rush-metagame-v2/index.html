@@ -18,6 +18,7 @@ section{position:relative;width:1920px;height:1080px;overflow:hidden}
 section h1,section h2,section h3,section p,section ul,section ol{margin:0}
 section svg,section img{flex:none;display:block}
 section aside{display:none}
+section > :not([style*="absolute"]):not(.footer){position:relative}
 .notes{position:fixed;left:0;right:0;bottom:0;max-height:30vh;overflow:auto;background:rgba(11,20,38,.95);color:#E8DFCC;font:16px/1.5 'Nunito Sans',Arial,sans-serif;padding:14px 20px 52px;display:none}
 .notes.on{display:block}
 .bar{position:fixed;right:14px;bottom:12px;display:flex;gap:8px;align-items:center;color:#9FB0C8;font:14px 'Nunito Sans',Arial,sans-serif;z-index:2}
