@@ -33,6 +33,12 @@ html,body{margin:0;height:100%;background:#12161C;overflow:hidden;font-family:'I
 .bar{position:fixed;right:14px;bottom:12px;display:flex;gap:8px;align-items:center;color:#A9B0BA;font-size:14px;z-index:2}
 .bar button{background:#1C222B;color:#ECEBE6;border:1px solid #2E3641;border-radius:8px;padding:6px 12px;font:inherit;cursor:pointer}
 .bar button:hover{background:#2E3641}
+.timer-controls{display:flex!important;flex-direction:row!important;gap:16px;margin-top:28px}
+.timer-controls button{font:600 32px 'IBM Plex Sans',Arial,sans-serif;border-radius:12px;padding:14px 36px;cursor:pointer;border:2px solid #ECEBE6}
+.timer-controls .t-start{background:#ECEBE6;color:#12161C}
+.timer-controls .t-reset{background:transparent;color:#ECEBE6}
+.timer-controls button:focus-visible{outline:4px solid #8DB0E6;outline-offset:3px}
+.timer-done{color:#F09A86!important}
 </style>
 </head>
 <body>
@@ -70,7 +76,7 @@ html,body{margin:0;height:100%;background:#12161C;overflow:hidden;font-family:'I
     </ul>
   </div>
   <div id="p7986375cd903r1-5c0a6d98" style="position:absolute; top:128px; left:1208px; width:584px; height:388px; display:flex; flex-direction:column; gap:8px; align-items:center; padding:120px 0 0">
-    <p style="font-family:'IBM Plex Mono', 'Courier New', monospace; font-size:220px; font-weight:600; line-height:1; color:#ecebe6">1:00</p>
+    <p style="font-family:'IBM Plex Mono', 'Courier New', monospace; font-size:220px; font-weight:600; line-height:1; color:#ecebe6" data-timer="60">1:00</p>
     <p style="font-family:'IBM Plex Mono', 'Courier New', monospace; font-size:28px; letter-spacing:4px; text-transform:uppercase; color:#a9b0ba">minute to decide</p>
   </div>
   <aside>Hand out slips. Read the dilemma aloud once. Give them exactly one minute and ask them not to discuss. Collect this first set of slips separately from the second vote, so we can compare instinct with reasoning at the end.</aside>
@@ -1070,6 +1076,33 @@ So the spread is a measurement of how settled a model’s view is. That is why o
   addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)show(i+(dx<0?1:-1));x0=null;});
   addEventListener('resize',fit);
   fit();show(i);
+})();
+</script>
+<script>
+(function(){
+  [].forEach.call(document.querySelectorAll('[data-timer]'),function(el){
+    var total=parseInt(el.getAttribute('data-timer'),10), left=total, tick=null;
+    var label=el.nextElementSibling, labelText=label?label.textContent:'';
+    var box=document.createElement('div'); box.className='timer-controls';
+    var start=document.createElement('button'); start.className='t-start'; start.textContent='Start';
+    var reset=document.createElement('button'); reset.className='t-reset'; reset.textContent='Reset';
+    box.appendChild(start); box.appendChild(reset);
+    (label||el).insertAdjacentElement('afterend',box);
+    function fmt(n){return Math.floor(n/60)+':'+('0'+n%60).slice(-2);}
+    function draw(){el.textContent=fmt(left);}
+    function stop(){clearInterval(tick);tick=null;}
+    start.onclick=function(){
+      if(tick){stop();start.textContent='Resume';return;}
+      if(left<=0)return;
+      start.textContent='Pause';
+      tick=setInterval(function(){
+        left--;draw();
+        if(left<=0){stop();el.classList.add('timer-done');if(label)label.textContent='time’s up';start.textContent='Start';}
+      },1000);
+    };
+    reset.onclick=function(){stop();left=total;draw();el.classList.remove('timer-done');if(label)label.textContent=labelText;start.textContent='Start';};
+    [start,reset].forEach(function(b){b.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter')e.stopPropagation();});});
+  });
 })();
 </script>
 </body>
