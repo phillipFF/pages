@@ -276,6 +276,7 @@ addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))
 document.getElementById('prev').onclick=()=>show(i-1);
 document.getElementById('next').onclick=()=>show(i+1);
 let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)show(i+(d<0?1:-1));tx=null;});
+addEventListener('hashchange',()=>{const n=(parseInt(location.hash.slice(1))||1)-1;if(n!==i)show(n);});
 fit();show((parseInt(location.hash.slice(1))||1)-1);
 </script>
 </body>
