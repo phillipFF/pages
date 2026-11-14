@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playables Plan &amp; Mega Storm Direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400..700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+* { margin: 0; padding: 0; }
+html, body { height: 100%; background: #0B1726; overflow: hidden; }
+#stage { position: fixed; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; }
+#stage > section { position: absolute; inset: 0; width: 1920px; height: 1080px; display: none; }
+#stage > section.active { display: flex; }
+p, h1, h2, h3, ul, ol { margin: 0; }
+img { display: block; }
+.card { position: relative; }
+.shot img, .ref { max-width: 100%; }
+#nav { position: fixed; bottom: 16px; right: 16px; display: flex; gap: 8px; align-items: center; font: 600 14px Inter, Arial, sans-serif; color: #C9D6E3; z-index: 10; }
+#nav button { background: #1A3352; color: #F5F1E8; border: 1px solid #2A4668; border-radius: 8px; width: 40px; height: 40px; font-size: 18px; cursor: pointer; }
+#nav button:hover { background: #2A4668; }
+:root {
+  --navy: #10233A;
+  --sand: #F5F1E8;
+  --card: #FCFAF5;
+  --line: #E0D7C6;
+  --ink: #10233A;
+  --body: #3E4A5A;
+  --accent: #B84E1E;
+  --accent-bright: #F08A4B;
+  --body-dark: #C9D6E3;
+  --card-dark: #1A3352;
+  --line-dark: #2A4668;
+}
+
+section {
+  box-sizing: border-box;
+  padding: 128px;
+  font-family: 'Inter', Arial, sans-serif;
+  color: var(--body);
+  display: flex;
+  flex-direction: column;
+}
+section.light { background: var(--sand); }
+section.dark { background: var(--navy); color: var(--body-dark); }
+section.has-footer { padding: 128px 128px 160px; }
+
+.eyebrow {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.dark .eyebrow { color: var(--accent-bright); }
+
+h2 {
+  font-family: 'Oswald', Arial, sans-serif;
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-top: 20px;
+}
+.dark h2 { color: var(--sand); }
+
+.lede {
+  font-size: 32px;
+  line-height: 1.4;
+  margin-top: 20px;
+  max-width: 1400px;
+}
+
+h3 {
+  font-family: 'Oswald', Arial, sans-serif;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.dark h3 { color: var(--sand); }
+
+.num {
+  font-family: 'Oswald', Arial, sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.dark .num { color: var(--accent-bright); }
+
+.card {
+  box-sizing: border-box;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dark .card { background: var(--card-dark); border-color: var(--line-dark); }
+.card .text { font-size: 32px; line-height: 1.4; }
+
+/* Monday */
+.monday-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px; flex: 1; }
+.stack { display: flex; flex-direction: column; gap: 24px; }
+.games-label { font-size: 28px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--ink); }
+.games { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.game {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-left: 8px solid var(--accent);
+  border-radius: 10px;
+  padding: 22px 28px;
+}
+
+/* Focus */
+.pair { display: flex; align-items: stretch; gap: 32px; margin-top: 64px; }
+.pair .card { flex: 1; }
+.plus { font-family: 'Oswald', Arial, sans-serif; font-size: 96px; font-weight: 700; color: var(--accent-bright); align-self: center; }
+.tag { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-bright); }
+.checks { font-size: 32px; line-height: 1.5; padding-left: 36px; }
+
+/* Direction */
+.callout {
+  margin-top: 40px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-left: 8px solid var(--accent);
+  border-radius: 12px;
+  padding: 32px 40px;
+  font-size: 32px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.timeline { display: grid; grid-template-columns: 1.2fr 0.8fr 1fr; gap: 0; margin-top: 56px; }
+.phase { box-sizing: border-box; padding: 32px 36px; display: flex; flex-direction: column; gap: 12px; border-top: 10px solid var(--line); }
+.phase.p1 { border-top-color: var(--accent); }
+.phase.p2 { border-top-color: var(--navy); }
+.phase.p3 { border-top-color: #2F7F86; }
+.when { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); }
+.phase .text { font-size: 32px; line-height: 1.35; color: var(--ink); }
+
+/* Examples */
+.shots { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 48px; }
+.shot { display: flex; flex-direction: column; gap: 16px; }
+.shot img { width: 533px; height: 300px; object-fit: contain; background: #0B1726; border-radius: 12px; }
+.shot .cap { font-size: 26px; line-height: 1.4; }
+.source { position: absolute; left: 128px; bottom: 64px; width: 1664px; font-size: 24px; color: #6B7686; }
+
+/* Rules */
+.rules { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 40px; }
+.rules .card { padding: 36px 40px; }
+.rules .spacer { flex: 1; }
+.rules .ref { width: 453px; height: 240px; object-fit: cover; border-radius: 10px; border: 2px solid var(--line-dark); }
+.rules .ref-label { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--body-dark); }
+.rules .text { color: var(--sand); }
+.rules .sub { font-size: 26px; line-height: 1.45; color: var(--body-dark); }
+
+/* Motion */
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+.in { animation: rise 500ms cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 110ms); }
+
+</style>
+</head>
+<body>
+<div id="stage">
+<section id="monday" class="light">
+<p class="eyebrow">Things for Monday</p>
+<h2>Get every in-flight or finished playable to a final AppLovin test, ASAP</h2>
+<div class="monday-grid">
+<div class="stack">
+<div class="card in" style="--i:1"><p class="num">01</p><p class="text">Create a <b>creative set</b> for each playable</p></div>
+<div class="card in" style="--i:2"><p class="num">02</p><p class="text">Create a <b>playable hook</b> for each playable that doesn’t have one yet</p></div>
+</div>
+<div class="stack in" style="--i:3">
+<p class="games-label">Games</p>
+<div class="games">
+<p class="game">City Battle</p>
+<p class="game">Hexeroid</p>
+<p class="game">Weapon-Out</p>
+<p class="game">Coin Commander</p>
+<p class="game">Ring Arena</p>
+<p class="game">Chess Army</p>
+<p class="game">Crate and Cannon</p>
+<p class="game">Tower Tactics</p>
+</div>
+</div>
+</div>
+
+</section>
+<section id="focus" class="dark">
+<p class="eyebrow">Next set of playables</p>
+<h2>All focus goes to the Harbor Rush: Mega Storm design</h2>
+<div class="pair">
+<div class="card in" style="--i:1">
+<p class="tag">PvE / asynchronous</p>
+<h3>A short loop players want to repeat</h3>
+<ul class="checks">
+<li>30 seconds or less</li>
+<li>Skippable is ideal</li>
+<li>Interesting enough to replay over and over</li>
+</ul>
+</div>
+<p class="plus in" style="--i:2">+</p>
+<div class="card in" style="--i:3">
+<p class="tag">PvP / synchronous</p>
+<h3>A live version built on the same loop</h3>
+<ul class="checks">
+<li>Fits with the async mode</li>
+<li>Ideally ties back to Turf Master in some way</li>
+</ul>
+</div>
+</div>
+
+</section>
+<section id="direction" class="light">
+<p class="eyebrow">Direction</p>
+<h2>We’re going down the SLG path</h2>
+<p class="lede">We talked through a less complicated version of Mega Storm, and ultimately believe the SLG direction is our best bet.</p>
+<p class="callout in" style="--i:1"><b>The challenge:</b> we need to nail down what ship-to-ship combat looks like in Mega Storm.</p>
+<div class="timeline">
+<div class="phase p1 in" style="--i:2"><p class="when">Next 4 weeks · timeboxed</p><p class="text">Explore and prototype ship-to-ship combat options</p></div>
+<div class="phase p2 in" style="--i:3"><p class="when">End of week 4</p><p class="text">Choose the best one we can make</p></div>
+<div class="phase p3 in" style="--i:4"><p class="when">Rest of December</p><p class="text">Polish and implement the chosen combat</p></div>
+</div>
+
+</section>
+<section id="boarding" class="light has-footer">
+<p class="eyebrow">Example A · Boarding</p>
+<h2>Turf Master, reimagined as ship vs. ship</h2>
+<p class="lede">What if today’s Turf Master became ship-to-ship combat, with units boarding the enemy ship and taking it over?</p>
+<div class="shots">
+<div class="shot in" style="--i:1"><img src="media/rogue-waters.jpg" alt="Rogue Waters, an overhead view of a pirate ship at sea with the crew lined up on deck during turn-based combat"><h3>Rogue Waters</h3><p class="cap">Cannons while closing in, then grid tactics across both decks.</p></div>
+<div class="shot in" style="--i:2"><img src="media/abandon-ship.jpg" alt="Abandon Ship, a high overhead view of a sailing ship fighting at sea in a lightning storm"><h3>Abandon Ship</h3><p class="cap">Ram, throw boarding hooks, and fight the enemy crew up close.</p></div>
+<div class="shot in" style="--i:3"><img src="media/void-war.jpg" alt="Void War, top-down cutaways of the player's ship and an enemy ship side by side, room by room"><h3>Void War</h3><p class="cap">FTL-style ships; boarding sleds punch through the enemy hull.</p></div>
+</div>
+<p class="source">Screenshots: Steam store listings</p>
+
+</section>
+<section id="lobbing" class="light has-footer">
+<p class="eyebrow">Example B · Artillery</p>
+<h2>Ships lobbing shots at each other</h2>
+<p class="lede">Another option: trade arcing shots between two ships, like Castle Busters, Forts or GunBound.</p>
+<div class="shots">
+<div class="shot in" style="--i:1"><img src="media/castle-busters.jpg" alt="Castle Busters, two castles on treads facing off, one firing a shot at the other"><h3>Castle Busters</h3><p class="cap">1v1 PvP: load your keep and blast the rival castle to rubble.</p></div>
+<div class="shot in" style="--i:2"><img src="media/forts.jpg" alt="Forts, two teams' forts on opposite cliffs trading fire across a canyon"><h3>Forts</h3><p class="cap">Build a fort, then trade physics-based artillery fire.</p></div>
+<div class="shot in" style="--i:3"><img src="media/gunbound.jpg" alt="GunboundM, two teams on opposite sides of the map, shots streaking from one side into the other"><h3>GunBound</h3><p class="cap">Turn-based shots: set angle and power, read the wind.</p></div>
+</div>
+<p class="source">Screenshots: App Store (Castle Busters), Steam (Forts, GunboundM)</p>
+
+</section>
+<section id="rules" class="dark">
+<p class="eyebrow">Ground rules</p>
+<h2>Every ship combat concept has to pass these</h2>
+<div class="rules">
+<div class="card in" style="--i:1"><p class="num">01</p><h3>Short</h3><p class="text">Async and/or skippable in under 30 seconds</p></div>
+<div class="card in" style="--i:2"><p class="num">02</p><h3>On theme</h3><p class="text">Fits Mega Storm’s theming around ships and ship combat</p><div class="spacer"></div><img class="ref" src="media/harbor-rush.webp" alt="Harbor Rush gameplay: red and blue teams clashing across hex islands with towers, cannons and units"><p class="ref-label">Harbor Rush: Mega Storm</p></div>
+<div class="card in" style="--i:3"><p class="num">03</p><h3>Derived</h3><p class="text">Ideally from Turf Master (not a must)</p><div class="spacer"></div><img class="ref" src="media/wasteland-rv.webp" alt="Wasteland RV gameplay: a multi-deck RV cutaway with crew working in rooms, parked in a desert junkyard"><p class="ref-label">Or: Wasteland RV + a combat layer</p></div>
+</div>
+
+</section>
+</div>
+<div id="nav"><button id="prev" aria-label="Previous slide">&#8592;</button><span id="count"></span><button id="next" aria-label="Next slide">&#8594;</button></div>
+<script>
+const slides=[...document.querySelectorAll('#stage > section')];
+const stage=document.getElementById('stage'),count=document.getElementById('count');
+let i=0;
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`scale(${s}) translate(-50%,-50%)`;}
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,k)=>s.classList.toggle('active',k===i));count.textContent=(i+1)+' / '+slides.length;history.replaceState(null,'','#'+(i+1));}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1);}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+document.getElementById('prev').onclick=()=>show(i-1);
+document.getElementById('next').onclick=()=>show(i+1);
+let tx=null;addEventListener('touchstart',e=>tx=e.touches[0].clientX);addEventListener('touchend',e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40)show(i+(d<0?1:-1));tx=null;});
+fit();show((parseInt(location.hash.slice(1))||1)-1);
+</script>
+</body>
+</html>
