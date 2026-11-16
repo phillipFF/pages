@@ -152,10 +152,12 @@ h3 {
 .source { position: absolute; left: 128px; bottom: 64px; width: 1664px; font-size: 24px; color: #6B7686; }
 
 /* Rules */
-.rules { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 40px; }
-.rules .card { padding: 36px 40px; }
+.rules { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 32px; margin-top: 40px; }
+.rules .card { padding: 36px 36px; }
+.rules .card .text { font-size: 28px; line-height: 1.35; }
 .rules .spacer { flex: 1; }
-.rules .ref { width: 453px; height: 240px; object-fit: cover; border-radius: 10px; border: 2px solid var(--line-dark); }
+.rules .ref { width: 316px; height: 170px; object-fit: cover; border-radius: 10px; border: 2px solid var(--line-dark); }
+.rules .sub-list { font-size: 26px; line-height: 1.45; color: var(--body-dark); padding-left: 30px; }
 .rules .ref-label { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--body-dark); }
 .rules .text { color: var(--sand); }
 .rules .sub { font-size: 26px; line-height: 1.45; color: var(--body-dark); }
@@ -254,12 +256,18 @@ h3 {
 
 </section>
 <section id="rules" class="dark">
-<p class="eyebrow">Ground rules</p>
-<h2>Every ship combat concept has to pass these</h2>
+<p class="eyebrow">Guidelines</p>
+<h2>Guidelines for every ship combat concept</h2>
 <div class="rules">
 <div class="card in" style="--i:1"><p class="num">01</p><h3>Short</h3><p class="text">Async and/or skippable in under 30 seconds</p></div>
 <div class="card in" style="--i:2"><p class="num">02</p><h3>On theme</h3><p class="text">Fits Mega Storm’s theming around ships and ship combat</p><div class="spacer"></div><img class="ref" src="media/harbor-rush.webp" alt="Harbor Rush gameplay: red and blue teams clashing across hex islands with towers, cannons and units"><p class="ref-label">Harbor Rush: Mega Storm</p></div>
 <div class="card in" style="--i:3"><p class="num">03</p><h3>Derived</h3><p class="text">Ideally from Turf Master (not a must)</p><div class="spacer"></div><img class="ref" src="media/wasteland-rv.webp" alt="Wasteland RV gameplay: a multi-deck RV cutaway with crew working in rooms, parked in a desert junkyard"><p class="ref-label">Or: Wasteland RV + a combat layer</p></div>
+<div class="card in" style="--i:4"><p class="num">04</p><h3>Replayable</h3><p class="text">A good balance between RNG and strategy</p>
+<ul class="sub-list">
+<li>Can’t feel too random</li>
+<li>Rewards some skill or thinking</li>
+<li>Factors in your Turf Master account power</li>
+</ul></div>
 </div>
 
 </section>
