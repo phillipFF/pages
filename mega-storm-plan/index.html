@@ -185,6 +185,13 @@ h3 {
 .idea .isrc { font-size: 24px; color: var(--body); line-height: 1.3; }
 .idea .isrc b { color: var(--ink); }
 
+.itable { width: 100%; margin-top: 32px; font-size: 24px; color: var(--body); }
+.itable tr.head { background: var(--navy); }
+.itable tr.head th { color: var(--sand); }
+.itable tr.band { background: var(--card); }
+.itable td.top { color: var(--accent); }
+.itable td.name { color: var(--ink); }
+
 /* Motion */
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
 .in { animation: rise 500ms cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 110ms); }
@@ -405,36 +412,55 @@ h3 {
 
 </section>
 <section id="ideas" class="light">
-<p class="eyebrow">Brainstorm</p>
-<h2>20 ideas, each borrowed from an existing game</h2>
-<div class="legend">
-<div class="key"><div class="swatch sw-mobile"></div><p>Mobile</p></div>
-<div class="key"><div class="swatch sw-party"></div><p>Party game</p></div>
-<div class="key"><div class="swatch sw-web"></div><p>Web game</p></div>
-<div class="key"><div class="swatch sw-top"></div><p>Top 5 (dark outline, “Top 5” label)</p></div>
-</div>
-<div class="ideas">
-<div class="idea top"><p class="iname">1 · Broadside Duel</p><p class="isrc">Castle Busters · <b>Top 5</b></p></div>
-<div class="idea top"><p class="iname">2 · Harbor Raid</p><p class="isrc">Clash of Clans · <b>Top 5</b></p></div>
-<div class="idea"><p class="iname">3 · Fleet Capture</p><p class="isrc">State.io</p></div>
-<div class="idea"><p class="iname">4 · Turf Sail</p><p class="isrc">Paper.io</p></div>
-<div class="idea"><p class="iname">5 · Crew Rush</p><p class="isrc">Count Masters</p></div>
-<div class="idea top"><p class="iname">6 · Deck Auto-Battler</p><p class="isrc">Super Auto Pets · <b>Top 5</b></p></div>
-<div class="idea"><p class="iname">7 · Merge Fleet</p><p class="isrc">Top War</p></div>
-<div class="idea"><p class="iname">8 · Match-3 Broadside</p><p class="isrc">Empires &amp; Puzzles</p></div>
-<div class="idea"><p class="iname">9 · Pin Pull Sinker</p><p class="isrc">Hero Rescue</p></div>
-<div class="idea"><p class="iname">10 · Deck Defense</p><p class="isrc">Kingdom Rush</p></div>
-<div class="idea"><p class="iname">11 · Ship Siege</p><p class="isrc">Angry Birds</p></div>
-<div class="idea party"><p class="iname">12 · Storm Sumo</p><p class="isrc">Mario Party “Bumper Balls”</p></div>
-<div class="idea party"><p class="iname">13 · Grapple Tug-of-War</p><p class="isrc">Mario Party tug-of-war</p></div>
-<div class="idea party"><p class="iname">14 · Captain’s Microgames</p><p class="isrc">WarioWare</p></div>
-<div class="idea party top"><p class="iname">15 · Board Voyage</p><p class="isrc">Mario Party board · <b>Top 5</b></p></div>
-<div class="idea party"><p class="iname">16 · Battleship Volley</p><p class="isrc">Battleship</p></div>
-<div class="idea web"><p class="iname">17 · Fleet Swarm</p><p class="isrc">Agar.io</p></div>
-<div class="idea web"><p class="iname">18 · Cannon Dice</p><p class="isrc">Dicey Dungeons</p></div>
-<div class="idea web"><p class="iname">19 · Pirate Cards</p><p class="isrc">Slay the Spire</p></div>
-<div class="idea web top"><p class="iname">20 · Crew Rooms</p><p class="isrc">Wasteland RV + FTL · <b>Top 5</b></p></div>
-</div>
+<p class="eyebrow">Brainstorm · 1 of 4 · Top 5 picks in orange</p>
+<h2>Ideas 1–5: from mobile games</h2>
+<table class="itable">
+<tr class="head"><th style="width:18%">Idea</th><th style="width:14%">Borrowed from</th><th style="width:32%">Gameplay (30 seconds or less)</th><th style="width:20%">Skill vs. RNG</th><th style="width:16%">Account power</th></tr>
+<tr><td class="top">1 · Broadside Duel · Top 5</td><td>Castle Busters</td><td>Trade 3 angle-and-power cannon shots with a ghost ship</td><td>Skill: aim. RNG: wind and swell</td><td>Cannon damage, hull HP</td></tr>
+<tr class="band"><td class="top">2 · Harbor Raid · Top 5</td><td>Clash of Clans</td><td>Drop boarding crews onto a real player’s harbor and grab loot</td><td>Skill: where to land. RNG: tower targeting</td><td>Crew vs. tower levels</td></tr>
+<tr><td class="name">3 · Fleet Capture</td><td>State.io</td><td>Drag crew between ships in a small fleet to capture enemy ships</td><td>Skill: timing and routing. RNG: little</td><td>Crew count, regen</td></tr>
+<tr class="band"><td class="name">4 · Turf Sail</td><td>Paper.io</td><td>Sail loops to claim water hexes; cut enemy trails to sink them</td><td>Skill: steering. RNG: spawn spots</td><td>Ship speed and size</td></tr>
+<tr><td class="name">5 · Crew Rush</td><td>Count Masters</td><td>Crew run a plank through multiplier gates, then brawl on boarding</td><td>Skill: gate picks. RNG: enemy crew size</td><td>Starting crew size</td></tr>
+</table>
+
+</section>
+<section id="ideas2" class="light">
+<p class="eyebrow">Brainstorm · 2 of 4 · Top 5 picks in orange</p>
+<h2>Ideas 6–10: from mobile games</h2>
+<table class="itable">
+<tr class="head"><th style="width:18%">Idea</th><th style="width:14%">Borrowed from</th><th style="width:32%">Gameplay (30 seconds or less)</th><th style="width:20%">Skill vs. RNG</th><th style="width:16%">Account power</th></tr>
+<tr><td class="top">6 · Deck Auto-Battler · Top 5</td><td>Super Auto Pets</td><td>Place crew on deck slots, then watch a 10-second auto boarding fight</td><td>Skill: placement. RNG: shop rolls</td><td>Crew unit levels</td></tr>
+<tr class="band"><td class="name">7 · Merge Fleet</td><td>Top War</td><td>Merge ships in a quick prep phase; an auto broadside resolves</td><td>Skill: merge choices. RNG: enemy draw</td><td>Max merge tier</td></tr>
+<tr><td class="name">8 · Match-3 Broadside</td><td>Empires &amp; Puzzles</td><td>Matches charge cannons and boarding attacks over 3 turns</td><td>Skill: planning. RNG: tile drops</td><td>Ship and hero stats</td></tr>
+<tr class="band"><td class="name">9 · Pin Pull Sinker</td><td>Hero Rescue</td><td>Pull pins in order to pour water, bombs or crew onto the enemy</td><td>Skill: puzzle. RNG: layout variants</td><td>Bonus pins, hints</td></tr>
+<tr><td class="name">10 · Deck Defense</td><td>Kingdom Rush</td><td>Place gunners on deck slots and hold off boarders for 30 seconds</td><td>Skill: placement. RNG: wave mix</td><td>Gunner levels</td></tr>
+</table>
+
+</section>
+<section id="ideas3" class="light">
+<p class="eyebrow">Brainstorm · 3 of 4 · Top 5 picks in orange</p>
+<h2>Ideas 11–15: from mobile and party games</h2>
+<table class="itable">
+<tr class="head"><th style="width:18%">Idea</th><th style="width:14%">Borrowed from</th><th style="width:32%">Gameplay (30 seconds or less)</th><th style="width:20%">Skill vs. RNG</th><th style="width:16%">Account power</th></tr>
+<tr><td class="name">11 · Ship Siege</td><td>Angry Birds</td><td>Fling cannonballs to collapse the enemy ship’s structure and crew</td><td>Skill: physics aim. RNG: debris</td><td>Ammo types, damage</td></tr>
+<tr class="band"><td class="name">12 · Storm Sumo</td><td>Mario Party minigame</td><td>Ram rivals off an arena that the Mega Storm keeps shrinking</td><td>Skill: steering. RNG: storm pattern</td><td>Ship mass, ram power</td></tr>
+<tr><td class="name">13 · Grapple Tug-of-War</td><td>Mario Party minigame</td><td>Timed taps haul the enemy ship in, then you board it</td><td>Skill: timing. RNG: little</td><td>Rope strength</td></tr>
+<tr class="band"><td class="name">14 · Captain’s Microgames</td><td>WarioWare</td><td>Five 5-second tasks: load, aim, fire, patch the hull, board</td><td>Skill: reflexes. RNG: which tasks</td><td>Bonus time, fewer tasks</td></tr>
+<tr><td class="top">15 · Board Voyage · Top 5</td><td>Mario Party board</td><td>Roll dice to sail a hex board; enemy spaces start 10-second minigames</td><td>Skill: route choices. RNG: dice</td><td>Extra dice, items</td></tr>
+</table>
+
+</section>
+<section id="ideas4" class="light">
+<p class="eyebrow">Brainstorm · 4 of 4 · Top 5 picks in orange</p>
+<h2>Ideas 16–20: from party and web games</h2>
+<table class="itable">
+<tr class="head"><th style="width:18%">Idea</th><th style="width:14%">Borrowed from</th><th style="width:32%">Gameplay (30 seconds or less)</th><th style="width:20%">Skill vs. RNG</th><th style="width:16%">Account power</th></tr>
+<tr><td class="name">16 · Battleship Volley</td><td>Battleship</td><td>Fire volleys at a hidden grid; sonar reveals narrow it down</td><td>Skill: deduction. RNG: first shots</td><td>Volley size, sonar</td></tr>
+<tr class="band"><td class="name">17 · Fleet Swarm</td><td>Agar.io</td><td>Absorb smaller ships into your fleet and avoid bigger ones</td><td>Skill: positioning. RNG: spawns</td><td>Starting fleet size</td></tr>
+<tr><td class="name">18 · Cannon Dice</td><td>Dicey Dungeons</td><td>Roll cannon dice and slot them into guns, sails or boarding</td><td>Skill: slot choices. RNG: dice</td><td>Dice count, slots</td></tr>
+<tr class="band"><td class="name">19 · Pirate Cards</td><td>Slay the Spire</td><td>Play fire, board and repair cards over 3 quick turns</td><td>Skill: sequencing. RNG: draws</td><td>Deck quality</td></tr>
+<tr><td class="top">20 · Crew Rooms · Top 5</td><td>Wasteland RV + FTL</td><td>Drag crew between gun, shield and helm rooms in a 30-second auto fight</td><td>Skill: crew moves. RNG: enemy volleys</td><td>Room and crew levels</td></tr>
+</table>
 
 </section>
 </div>
