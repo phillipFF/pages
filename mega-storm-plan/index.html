@@ -168,6 +168,23 @@ h3 {
 .mock h3 { font-size: 32px; }
 .mock svg { width: 280px; height: 560px; }
 
+/* 20 ideas */
+.legend { display: flex; gap: 32px; margin-top: 24px; font-size: 24px; color: var(--body); }
+.legend .key { display: flex; align-items: center; gap: 10px; }
+.swatch { width: 24px; height: 24px; border-radius: 4px; }
+.sw-mobile { background: #2F7F86; }
+.sw-party { background: var(--accent); }
+.sw-web { background: #5B4FA8; }
+.sw-top { background: var(--card); border: 3px solid var(--navy); box-sizing: border-box; }
+.ideas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 16px; margin-top: 28px; }
+.idea { box-sizing: border-box; background: var(--card); border: 2px solid var(--line); border-left: 10px solid #2F7F86; border-radius: 0; padding: 14px 20px; display: flex; flex-direction: column; gap: 4px; }
+.idea.party { border-left-color: var(--accent); }
+.idea.web { border-left-color: #5B4FA8; }
+.idea.top { border-top: 3px solid var(--navy); border-right: 3px solid var(--navy); border-bottom: 3px solid var(--navy); }
+.idea .iname { font-family: 'Oswald', Arial, sans-serif; font-size: 30px; font-weight: 600; color: var(--ink); line-height: 1.15; }
+.idea .isrc { font-size: 24px; color: var(--body); line-height: 1.3; }
+.idea .isrc b { color: var(--ink); }
+
 /* Motion */
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } }
 .in { animation: rise 500ms cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i, 0) * 110ms); }
@@ -384,6 +401,39 @@ h3 {
 <text x="100" y="380" font-size="11" fill="#B5D4F4" text-anchor="middle">Drag crew between rooms</text>
 </svg></div>
 
+</div>
+
+</section>
+<section id="ideas" class="light">
+<p class="eyebrow">Brainstorm</p>
+<h2>20 ideas, each borrowed from an existing game</h2>
+<div class="legend">
+<div class="key"><div class="swatch sw-mobile"></div><p>Mobile</p></div>
+<div class="key"><div class="swatch sw-party"></div><p>Party game</p></div>
+<div class="key"><div class="swatch sw-web"></div><p>Web game</p></div>
+<div class="key"><div class="swatch sw-top"></div><p>Top 5 (dark outline, “Top 5” label)</p></div>
+</div>
+<div class="ideas">
+<div class="idea top"><p class="iname">1 · Broadside Duel</p><p class="isrc">Castle Busters · <b>Top 5</b></p></div>
+<div class="idea top"><p class="iname">2 · Harbor Raid</p><p class="isrc">Clash of Clans · <b>Top 5</b></p></div>
+<div class="idea"><p class="iname">3 · Fleet Capture</p><p class="isrc">State.io</p></div>
+<div class="idea"><p class="iname">4 · Turf Sail</p><p class="isrc">Paper.io</p></div>
+<div class="idea"><p class="iname">5 · Crew Rush</p><p class="isrc">Count Masters</p></div>
+<div class="idea top"><p class="iname">6 · Deck Auto-Battler</p><p class="isrc">Super Auto Pets · <b>Top 5</b></p></div>
+<div class="idea"><p class="iname">7 · Merge Fleet</p><p class="isrc">Top War</p></div>
+<div class="idea"><p class="iname">8 · Match-3 Broadside</p><p class="isrc">Empires &amp; Puzzles</p></div>
+<div class="idea"><p class="iname">9 · Pin Pull Sinker</p><p class="isrc">Hero Rescue</p></div>
+<div class="idea"><p class="iname">10 · Deck Defense</p><p class="isrc">Kingdom Rush</p></div>
+<div class="idea"><p class="iname">11 · Ship Siege</p><p class="isrc">Angry Birds</p></div>
+<div class="idea party"><p class="iname">12 · Storm Sumo</p><p class="isrc">Mario Party “Bumper Balls”</p></div>
+<div class="idea party"><p class="iname">13 · Grapple Tug-of-War</p><p class="isrc">Mario Party tug-of-war</p></div>
+<div class="idea party"><p class="iname">14 · Captain’s Microgames</p><p class="isrc">WarioWare</p></div>
+<div class="idea party top"><p class="iname">15 · Board Voyage</p><p class="isrc">Mario Party board · <b>Top 5</b></p></div>
+<div class="idea party"><p class="iname">16 · Battleship Volley</p><p class="isrc">Battleship</p></div>
+<div class="idea web"><p class="iname">17 · Fleet Swarm</p><p class="isrc">Agar.io</p></div>
+<div class="idea web"><p class="iname">18 · Cannon Dice</p><p class="isrc">Dicey Dungeons</p></div>
+<div class="idea web"><p class="iname">19 · Pirate Cards</p><p class="isrc">Slay the Spire</p></div>
+<div class="idea web top"><p class="iname">20 · Crew Rooms</p><p class="isrc">Wasteland RV + FTL · <b>Top 5</b></p></div>
 </div>
 
 </section>
